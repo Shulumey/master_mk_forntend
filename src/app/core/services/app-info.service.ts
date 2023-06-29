@@ -5,7 +5,7 @@ export class AppInfoService {
   constructor() {}
 
   public get title() {
-    return 'Master_mk_frontend';
+    return 'Master MK';
   }
 
   public get currentYear() {
