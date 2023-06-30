@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './shared/components';
-import { AuthGuardService } from './shared/services';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import {CoreModule} from "./core/core.module";
+import {AuthGuardService} from "./core/services";
+import {APP_ROUTES} from "./core/constants/app.routes";
+import {ProductcardsComponent} from "./pages/productcards/productcards.component";
 
 const routes: Routes = [
   {
@@ -24,7 +27,7 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'login-form',
+    path: APP_ROUTES.LOGIN,
     component: LoginFormComponent,
     canActivate: [ AuthGuardService ]
   },
@@ -34,7 +37,7 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'create-account',
+    path: APP_ROUTES.CREATE_ACCOUNT,
     component: CreateAccountFormComponent,
     canActivate: [ AuthGuardService ]
   },
@@ -45,18 +48,19 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'home'
+    redirectTo: '/'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule],
+  imports: [RouterModule.forRoot(routes, { useHash: true }), DxDataGridModule, DxFormModule, CoreModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [
     HomeComponent,
     ProfileComponent,
-    TasksComponent
+    TasksComponent,
+    ProductcardsComponent
   ]
 })
 export class AppRoutingModule { }

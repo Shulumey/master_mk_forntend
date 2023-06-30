@@ -6,8 +6,8 @@ export const API_URLS: {
   LOGIN: string,
   REGISTER: string
 } = {
-  LOGIN: `${BASE_ADDRESS}/login`,
-  REGISTER: `${BASE_ADDRESS}/register`
+  LOGIN: `${BASE_ADDRESS}/User/login`,
+  REGISTER: `${BASE_ADDRESS}User/register`
 }
 
 

@@ -1,4 +1,4 @@
-@import "../../../../themes/generated/variables.base.scss";
+@import "../../../../themes/generated/variables.additional.scss";
 @import "../../../../dx-styles.scss";
 
 :host {
@@ -33,9 +33,12 @@
 :host-context(.dx-theme-generic) {
   .dx-toolbar {
     padding: 10px 0;
+    background-color: $base-bg;
+    color: $base-text-color;
   }
 
   .user-button>.dx-button-content {
     padding: 3px;
+    color: $base-text-color;
   }
 }

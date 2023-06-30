@@ -2,8 +2,13 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+let isElectron = require("is-electron");
+
+
 export const environment = {
   production: false,
+  isDesktop: () => isElectron(),
+  isBrowser: () => !isElectron(),
   apiUrl: "https://localhost:7211/",
 };
 

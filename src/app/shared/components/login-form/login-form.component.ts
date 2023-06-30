@@ -4,9 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import { AuthService } from '../../services';
-
-
+import {AuthService} from "../../../core/services";
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',

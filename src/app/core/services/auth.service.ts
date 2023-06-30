@@ -1,22 +1,32 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot } from '@angular/router';
-
-export interface IUser {
-  email: string;
-  avatarUrl?: string;
-}
+import {Inject, Injectable} from '@angular/core';
+import {CanActivate, Router, ActivatedRouteSnapshot} from '@angular/router';
+import {User} from "../../shared/model/user";
+import {BehaviorSubject, Observable} from "rxjs";
+import {filter, map} from "rxjs/operators";
+import {AppStorageService} from "./app-storage-service";
+import {APP_STORAGE_SERVICE} from "../tokens";
+import {HttpService} from "./http.service";
+import {API_URLS} from "../constants/api.urls";
+import {JwtHelperService} from "@auth0/angular-jwt";
+import {APP_ROUTES} from "../constants/app.routes";
 
 const defaultPath = '/';
-const defaultUser = {
-  email: 'sandra@example.com',
-  avatarUrl: 'https://js.devexpress.com/Demos/WidgetsGallery/JSDemos/images/employees/06.png'
-};
-
+const userKey = "master_mk_user";
 @Injectable()
 export class AuthService {
-  private _user: IUser | null = defaultUser;
-  get loggedIn(): boolean {
-    return !!this._user;
+
+  private userSub$;
+
+  public get user$(): Observable<User | null> {
+    return this.userSub$.asObservable();
+  }
+
+  public get currentUserValue(): User | null {
+    return this.userSub$.value;
+  }
+
+  get isLoggedIn(): boolean {
+    return !!this.currentUserValue;
   }
 
   private _lastAuthenticatedPath: string = defaultPath;
@@ -24,43 +34,20 @@ export class AuthService {
     this._lastAuthenticatedPath = value;
   }
 
-  constructor(private router: Router) { }
 
-  async logIn(email: string, password: string) {
-
-    try {
-      // Send request
-      this._user = { ...defaultUser, email };
-      this.router.navigate([this._lastAuthenticatedPath]);
-
-      return {
-        isOk: true,
-        data: this._user
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        message: "Authentication failed"
-      };
-    }
+  constructor(private router: Router,
+              private httpService: HttpService,
+              private jwtHelper: JwtHelperService,
+              @Inject(APP_STORAGE_SERVICE) private appStoreService: AppStorageService) {
+    this.userSub$ = new BehaviorSubject<User | null>(this.appStoreService.get<User>(userKey))
   }
 
-  async getUser() {
-    try {
-      // Send request
-
-      return {
-        isOk: true,
-        data: this._user
-      };
-    }
-    catch {
-      return {
-        isOk: false,
-        data: null
-      };
-    }
+  logIn(login: string, password: string) {
+     this.httpService.post<string>(API_URLS.LOGIN, {user: login, password},token=>{
+        let user = this.jwtHelper.decodeToken<User>(token);
+        this.userSub$.next(user);
+        this.appStoreService.set(userKey, user);
+     });
   }
 
   async createAccount(email: string, password: string) {
@@ -71,8 +58,7 @@ export class AuthService {
       return {
         isOk: true
       };
-    }
-    catch {
+    } catch {
       return {
         isOk: false,
         message: "Failed to create account"
@@ -80,15 +66,14 @@ export class AuthService {
     }
   }
 
-  async changePassword(email: string, recoveryCode: string) {
+  async changePassword(userName: string, recoveryCode: string) {
     try {
       // Send request
 
       return {
         isOk: true
       };
-    }
-    catch {
+    } catch {
       return {
         isOk: false,
         message: "Failed to change password"
@@ -103,8 +88,7 @@ export class AuthService {
       return {
         isOk: true
       };
-    }
-    catch {
+    } catch {
       return {
         isOk: false,
         message: "Failed to reset password"
@@ -113,17 +97,18 @@ export class AuthService {
   }
 
   async logOut() {
-    this._user = null;
-    this.router.navigate(['/login-form']);
+    this.userSub$.next(null);
+    await this.router.navigate([APP_ROUTES.LOGIN]);
   }
 }
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService) {
+  }
 
   canActivate(route: ActivatedRouteSnapshot): boolean {
-    const isLoggedIn = this.authService.loggedIn;
+    const isLoggedIn = this.authService.isLoggedIn;
     const isAuthForm = [
       'login-form',
       'reset-password',

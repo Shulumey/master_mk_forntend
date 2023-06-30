@@ -1,21 +1,20 @@
 <form class="login-form" (submit)="onSubmit($event)">
   <dx-form [formData]="formData" [disabled]="loading">
 
-    <dxi-item dataField="email" editorType="dxTextBox"
-      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Email', mode: 'email' }">
-      <dxi-validation-rule type="required" message="Email is required"></dxi-validation-rule>
-      <dxi-validation-rule type="email" message="Email is invalid"></dxi-validation-rule>
+    <dxi-item dataField="login" editorType="dxTextBox"
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'логин', mode: 'login' }">
+      <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
     <dxi-item dataField="password" editorType="dxTextBox"
-      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Password', mode: 'password' }">
-      <dxi-validation-rule type="required" message="Password is required"></dxi-validation-rule>
+      [editorOptions]="{ stylingMode: 'filled', placeholder: 'Пароль', mode: 'password' }">
+      <dxi-validation-rule type="required" message="необходимо указать пароль"></dxi-validation-rule>
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
     <dxi-item dataField="rememberMe" editorType="dxCheckBox"
-      [editorOptions]="{ text: 'Remember me', elementAttr: { class: 'form-text' } }">
+      [editorOptions]="{ text: 'Запомнить меня', elementAttr: { class: 'form-text' } }">
       <dxo-label [visible]="false"></dxo-label>
     </dxi-item>
 
@@ -30,17 +29,13 @@
       </div>
     </dxi-item>
 
-    <dxi-item itemType="button">
-      <dxo-button-options text="Create an account" width="100%" [onClick]="onCreateAccountClick"></dxo-button-options>
-    </dxi-item>
-
     <ng-container *dxTemplate="let item of 'signInTemplate'">
       <div>
         <span class="dx-button-text">
           <ng-container *ngIf="loading; else notLoading">
             <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
           </ng-container>
-          <ng-template #notLoading>Sign In</ng-template>
+          <ng-template #notLoading>Войти</ng-template>
         </span>
       </div>
     </ng-container>
