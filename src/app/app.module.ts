@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
-import { FooterModule, ResetPasswordFormModule, CreateAccountFormModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
+import { FooterModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import {CoreModule} from "./core/core.module";
@@ -18,8 +18,6 @@ import {CoreModule} from "./core/core.module";
     SideNavInnerToolbarModule,
     SingleCardModule,
     FooterModule,
-    ResetPasswordFormModule,
-    CreateAccountFormModule,
     ChangePasswordFormModule,
     LoginFormModule,
     UnauthenticatedContentModule,

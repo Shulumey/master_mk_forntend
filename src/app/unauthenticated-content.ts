@@ -3,6 +3,7 @@ import { Component, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SingleCardModule } from 'src/app/layouts';
 import { Router } from '@angular/router';
+import {APP_ROUTES} from "./core/constants/app.routes";
 
 @Component({
   selector: 'app-unauthenticated-content',
@@ -20,23 +21,23 @@ import { Router } from '@angular/router';
 })
 export class UnauthenticatedContentComponent {
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+
+  }
 
   get title() {
     const path = this.router.url.split('/')[1];
     switch (path) {
-      case 'login-form': return 'Аутентификация';
-      case 'reset-password': return 'Reset Password';
-      case 'create-account': return 'Sign Up';
-      case 'change-password': return 'Change Password';
-      default: return '';
+      case APP_ROUTES.LOGIN: return 'Аутентификация';
+      case APP_ROUTES.CHANGE_PASSWORD: return 'Смена пароля';
+      default: return 'fwesf';
     }
   }
 
   get description() {
     const path = this.router.url.split('/')[1];
     switch (path) {
-      case 'reset-password': return 'Please enter the email address that you used to register, and we will send you a link to reset your password via Email.';
+      case APP_ROUTES.CHANGE_PASSWORD: return 'Please enter the email address that you used to register, and we will send you a link to reset your password via Email.';
       default: return '';
     }
   }

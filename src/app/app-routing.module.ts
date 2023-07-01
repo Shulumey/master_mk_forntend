@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoginFormComponent, ResetPasswordFormComponent, CreateAccountFormComponent, ChangePasswordFormComponent } from './shared/components';
+import { LoginFormComponent, ChangePasswordFormComponent } from './shared/components';
 import { HomeComponent } from './pages/home/home.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { TasksComponent } from './pages/tasks/tasks.component';
@@ -9,21 +9,17 @@ import {CoreModule} from "./core/core.module";
 import {AuthGuardService} from "./core/services";
 import {APP_ROUTES} from "./core/constants/app.routes";
 import {ProductcardsComponent} from "./pages/productcards/productcards.component";
+import {AppComponent} from "./app.component";
 
 const routes: Routes = [
   {
-    path: 'tasks',
-    component: TasksComponent,
+    path: '',
+    component: AppComponent,
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
+    path: APP_ROUTES.PRODUCT_CARD,
+    component: ProductcardsComponent,
     canActivate: [ AuthGuardService ]
   },
   {
@@ -32,23 +28,13 @@ const routes: Routes = [
     canActivate: [ AuthGuardService ]
   },
   {
-    path: 'reset-password',
-    component: ResetPasswordFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: APP_ROUTES.CREATE_ACCOUNT,
-    component: CreateAccountFormComponent,
-    canActivate: [ AuthGuardService ]
-  },
-  {
-    path: 'change-password/:recoveryCode',
+    path: APP_ROUTES.CHANGE_PASSWORD,
     component: ChangePasswordFormComponent,
     canActivate: [ AuthGuardService ]
   },
   {
     path: '**',
-    redirectTo: '/'
+    redirectTo: '/',
   }
 ];
 

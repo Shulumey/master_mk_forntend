@@ -1,19 +1,24 @@
+import {APP_ROUTES} from "./core/constants/app.routes";
+import {Role} from "./shared/model/role";
+
 export const navigation = [
   {
-    text: 'Home',
-    path: '/home',
-    icon: 'home'
+    text: 'Карточки продукции',
+    path: APP_ROUTES.PRODUCT_CARD,
   },
   {
-    text: 'Examples',
-    icon: 'folder',
+    text: 'Линии упаковывания',
+    path: APP_ROUTES.PRODUCT_CARD,
+  },
+  {
+    text: 'Маркировка',
     items: [
       {
-        text: 'Profile',
+        text: 'Управление заказами',
         path: '/profile'
       },
       {
-        text: 'Tasks',
+        text: 'Отчеты об аггрегации',
         path: '/tasks'
       }
     ]

@@ -3,10 +3,16 @@ import {AppStorageService} from "./app-storage-service";
 
 export class BrowserAppStorageService implements AppStorageService {
 
-  constructor() { }
+  constructor() {
+  }
 
   get<T>(key: string): T | null {
-    return JSON.parse(localStorage.getItem(key) || "");
+    let value = localStorage.getItem(key);
+    if (value) {
+      return JSON.parse(localStorage.getItem(key) || "{}");
+    } else {
+      return null;
+    }
   }
 
   set<T>(key: string, val: T): void {

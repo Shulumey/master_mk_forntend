@@ -4,10 +4,12 @@ const BASE_ADDRESS: string = environment.apiUrl;
 
 export const API_URLS: {
   LOGIN: string,
-  REGISTER: string
+  REGISTER: string,
+  CHANGE_PASS: string
 } = {
   LOGIN: `${BASE_ADDRESS}/User/login`,
-  REGISTER: `${BASE_ADDRESS}User/register`
+  REGISTER: `${BASE_ADDRESS}User/register`,
+  CHANGE_PASS:`${BASE_ADDRESS}User/reset`,
 }
 
 

@@ -4,17 +4,20 @@ import { Router, RouterModule } from '@angular/router';
 import { DxFormModule } from 'devextreme-angular/ui/form';
 import { DxLoadIndicatorModule } from 'devextreme-angular/ui/load-indicator';
 import notify from 'devextreme/ui/notify';
-import {AuthService} from "../../../core/services";
+import {AuthService, LayoutService} from "../../../core/services";
+import {NgDestroyComponent} from "../../../core/ng.destroy.component";
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.scss']
 })
-export class LoginFormComponent {
+export class LoginFormComponent extends NgDestroyComponent{
   loading = false;
   formData: any = {};
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService,  layoutService: LayoutService, private router: Router) {
+    super(layoutService)
+  }
 
   async onSubmit(e: Event) {
     e.preventDefault();
@@ -22,10 +25,10 @@ export class LoginFormComponent {
     this.loading = true;
 
     const result = await this.authService.logIn(email, password);
-    if (!result.isOk) {
+   /* if (!result.isOk) {
       this.loading = false;
       notify(result.message, 'error', 2000);
-    }
+    }*/
   }
 
   onCreateAccountClick = () => {
