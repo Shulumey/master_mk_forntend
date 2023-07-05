@@ -1,17 +1,33 @@
 import {Directive, OnDestroy} from '@angular/core';
 import {Subscription} from "rxjs";
+import notify from "devextreme/ui/notify";
+import {SnackPosition} from "../shared/model/snack.message";
 import {LayoutService} from "./services";
 
 @Directive()
-export class NgDestroyComponent implements OnDestroy {
+export abstract class NgDestroyComponent implements OnDestroy {
   public subs: Subscription[] = [];
-  public isLoading: boolean
+  private isLoad: boolean
+  protected messagePosition: SnackPosition
 
+  public get isLoading(): boolean {
+    return this.isLoad;
+  }
 
   constructor(protected layoutService: LayoutService) {
-    this.isLoading = false;
+    this.isLoad = false;
+    this.messagePosition = "bottom right";
 
-    this.appendToSubs(this.layoutService.loaded$.subscribe(isLoad=>this.isLoading = isLoad));
+    this.appendToSubs(this.layoutService.loadding$.subscribe(isLoad => this.isLoad = isLoad));
+    this.appendToSubs(this.layoutService.messages$.subscribe(value => notify({
+      message: value.message,
+      type: value.messageType,
+      displayTime: value.duration,
+      width: 400
+    }, {
+      position: this.messagePosition,
+      direction: "up-stack"
+    })));
   }
 
   protected appendToSubs(sub: Subscription): void {

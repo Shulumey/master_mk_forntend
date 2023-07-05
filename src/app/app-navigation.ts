@@ -8,18 +8,18 @@ export const navigation = [
   },
   {
     text: 'Линии упаковывания',
-    path: APP_ROUTES.PRODUCT_CARD,
+    path: APP_ROUTES.PACK_LINES,
   },
   {
     text: 'Маркировка',
     items: [
       {
         text: 'Управление заказами',
-        path: '/profile'
+        path: APP_ROUTES.ORDERS
       },
       {
         text: 'Отчеты об аггрегации',
-        path: '/tasks'
+        path: APP_ROUTES.AGGREGATION_REPORTS
       }
     ]
   }

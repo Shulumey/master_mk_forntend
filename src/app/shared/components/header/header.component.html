@@ -17,24 +17,42 @@
       *ngIf="title"
       [text]="title">
     </dxi-item>
-  <!--  <dxi-item
+    <dxi-item
+      location="center"
+      *ngIf="user"
+      [text]="user.fullName">
+    </dxi-item>
+    <dxi-item
+      id="settings"
       location="after"
-      locateInMenu="auto"
-      menuItemTemplate="menuItem">
-      <div *dxTemplate="let data of 'item'">
+      widget="dxButton"
+      cssClass="menu-button"
+      [options]="{
+       icon:'preferences',
+       stylingMode: 'text',
+       onClick: toggleMenu
+      }">
+    <!--  <div *dxTemplate="let data of 'exitTemplate'">
         <dx-button
-          class="user-button authorization"
-          width="210px"
           height="100%"
           stylingMode="text">
-          <div *dxTemplate="let data of 'content'">
-            <app-user-panel [user]="user" [menuItems]="userMenuItems" menuMode="context"></app-user-panel>
-          </div>
+          <fa-icon class="dx-icon" [icon]="faRightFromBracket"></fa-icon>
+        </dx-button>
+      </div>-->
+    </dxi-item>
+    <dxi-item
+      location="after"
+      locateInMenu="auto"
+      [onClick]="toggleMenu"
+      cssClass="menu-button"
+      menuItemTemplate="exitTemplate">
+      <div *dxTemplate="let data of 'exitTemplate'">
+        <dx-button
+          height="100%"
+          stylingMode="text">
+          <fa-icon class="dx-icon" [icon]="faRightFromBracket"></fa-icon>
         </dx-button>
       </div>
-    </dxi-item>-->
-  <!--  <div *dxTemplate="let data of 'menuItem'">
-      <app-user-panel [user]="user" [menuItems]="userMenuItems" menuMode="list"></app-user-panel>
-    </div>-->
+    </dxi-item>
   </dx-toolbar>
 </header>

@@ -9,6 +9,8 @@ import {JwtHelperService} from "@auth0/angular-jwt";
 import {APP_ROUTES} from "../constants/app.routes";
 import {APP_STORAGE_SERVICE} from "../inject.tokens";
 import {UserRegistration} from "../../shared/model/user.registration";
+import {HttpHeaders} from "@angular/common/http";
+import {LayoutService} from "./layout.service";
 
 const userKey = "master_mk_user";
 
@@ -37,22 +39,34 @@ export class AuthService {
 
   constructor(private router: Router,
               private httpService: HttpService,
+              private layoutService: LayoutService,
               private jwtHelper: JwtHelperService,
               @Inject(APP_STORAGE_SERVICE) private appStoreService: AppStorageService) {
     this.userSub$ = new BehaviorSubject<User | null>(this.appStoreService.get<User>(userKey))
   }
 
-  logIn(login: string, password: string) {
-    let user = this.appStoreService.get<User | null | undefined>(userKey);
-    if (user === null || user === undefined) {
-      this.httpService.post<string>(API_URLS.LOGIN, {user: login, password}, token => {
-        let user = this.jwtHelper.decodeToken<User>(token);
+  logIn(login: string, password: string, isRemember: boolean) {
+    let formData = new FormData()
+    formData.append("user", login);
+    formData.append("password", password);
+
+    this.httpService.post<string>(API_URLS.LOGIN, formData, token => {
+      let user: User | null = this.jwtHelper.decodeToken<User>(token || '');
+      if (user && user.mustResetPassword == "True") {
+        this.router.navigate([APP_ROUTES.CHANGE_PASSWORD], {
+          queryParams: {
+            'login': user.login
+          }
+        })
+      } else {
         this.userSub$.next(user);
-        this.appStoreService.set(userKey, user);
-      });
-    } else {
-      this.userSub$.next(user);
-    }
+        if (isRemember) {
+          this.appStoreService.set(userKey, user);
+        }
+        this.router.navigate([this._lastAuthenticatedPath]);
+      }
+    });
+
   }
 
   createAccount(registration: UserRegistration) {
@@ -72,18 +86,15 @@ export class AuthService {
   }
 
   changePassword(userName: string, newPassword: string) {
-    try {
-      // Send request
+    let formData = new FormData()
 
-      return {
-        isOk: true
-      };
-    } catch {
-      return {
-        isOk: false,
-        message: "Failed to change password"
-      }
-    }
+    formData.append("user", userName);
+    formData.append("password", newPassword);
+
+    this.httpService.post(API_URLS.CHANGE_PASS, formData, () => {
+      this.router.navigate([APP_ROUTES.LOGIN])
+      this.layoutService.showSuccess("Пароль успешно изменен");
+    });
   }
 
   logOut() {

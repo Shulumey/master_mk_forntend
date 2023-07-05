@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Event, NavigationEnd, Router} from "@angular/router";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, filter, map, timeout} from "rxjs/operators";
 import {Observer, Subscription, TimeoutError} from "rxjs";
 import {LayoutService} from "./layout.service";
@@ -26,10 +26,10 @@ export class HttpService {
       .subscribe(() => this.onNavigationEnd());
   }
 
-  public get<T>(url: string, successCallback: (result: T) => void, onErrorCallback?: (x: any) => void): Subscription {
-    const sub: Subscription = this.sendRequest<T>("GET", url, undefined,{
+  public get<T>(url: string, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void): Subscription {
+    const sub: Subscription = this.sendRequest<T>("GET", url, undefined, {
       next: successCallback,
-      error:(err)=>{
+      error: (err) => {
         this.requestEnded(sub, url);
         this.handleError(err, onErrorCallback);
       },
@@ -40,10 +40,10 @@ export class HttpService {
     return sub;
   }
 
-  public post<T>(url: string, body: any, successCallback: (result: T) => void, onErrorCallback?: (x: any) => void): Subscription {
-    const sub: Subscription =  this.sendRequest<T>("POST", url, body, {
+  public post<T>(url: string, body: any, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void): Subscription {
+    const sub: Subscription = this.sendRequest<T>("POST", url, body, {
       next: successCallback,
-      error:(err)=>{
+      error: (err) => {
         this.requestEnded(sub, url);
         this.handleError(err, onErrorCallback);
       },
@@ -54,7 +54,7 @@ export class HttpService {
     return sub;
   }
 
-  public put<T>(url: string, body: any, successCallback: (result: T) => void, onErrorCallback?: (x: any) => void): Subscription {
+  public put<T>(url: string, body: any, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void): Subscription {
     return this.sendRequest<T>("PUT", url, body, {
       next: successCallback,
       error: onErrorCallback === undefined ? (_) => {
@@ -68,21 +68,11 @@ export class HttpService {
     method: "GET" | "POST" | "PUT",
     url: string,
     body: any,
-    observer: Observer<T>
+    observer: Observer<T | null>
   ): Subscription {
     const sub: Subscription = this._httpClient.request<ServerResponse>(method, url, !body ? undefined : {body})
       .pipe(timeout(TIMEOUT),
-        map((body)=>{
-          switch (body.status) {
-            case StatusEnum.success:{
-              return body.result as T
-            }
-            case StatusEnum.error:{
-              throw new Error(body.result)
-            }
-          }
-        }
-      ))
+        map((body) => body.result as T))
       .subscribe(observer);
 
     return this.requestStarted(sub, url);
@@ -98,14 +88,13 @@ export class HttpService {
       }
     }
 
-
     this._pendingRequests = new Map<Subscription, string>();
   }
 
   private requestStarted(sub: Subscription, url: string): Subscription {
     this._pendingRequests.set(sub, url);
 
-    //this._layoutService.showProgress();
+    this._layoutService.loadStart();
 
     // eslint-disable-next-line no-console
     console.debug("HttpService -> requestStarted", url, this._pendingRequests.size);
@@ -121,7 +110,7 @@ export class HttpService {
     }
 
     if (this._pendingRequests.size === 0) {
-      // this._layoutService.hideProgress();
+      this._layoutService.loadEnd();
     }
 
     // eslint-disable-next-line no-console
@@ -136,7 +125,7 @@ export class HttpService {
         ? "Истекло время ожидания запроса"
         : "Неопознанная ошибка!";
 
-      if(err instanceof Error){
+      if (err instanceof Error) {
         message = (err as Error).message
       }
 
@@ -164,7 +153,7 @@ export class HttpService {
         message = "Api не запущен";
       }
       console.error(message);
-      //this._layoutService.showError(message);
+      this._layoutService.showError(message);
     }
   };
 

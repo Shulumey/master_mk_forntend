@@ -45,13 +45,13 @@ export class SideNavOuterToolbarComponent implements OnInit {
   }
 
   updateDrawer() {
-    const isXSmall = this.screen.sizes['screen-x-small'];
+/*    const isXSmall = this.screen.sizes['screen-x-small'];
     const isLarge = this.screen.sizes['screen-large'];
 
     this.menuMode = isLarge ? 'shrink' : 'overlap';
     this.menuRevealMode = isXSmall ? 'slide' : 'expand';
     this.minMenuSize = isXSmall ? 0 : 60;
-    this.shaderEnabled = !isLarge;
+    this.shaderEnabled = !isLarge;*/
   }
 
   get hideMenuAfterNavigation() {

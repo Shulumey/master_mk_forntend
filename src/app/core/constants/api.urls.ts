@@ -7,7 +7,7 @@ export const API_URLS: {
   REGISTER: string,
   CHANGE_PASS: string
 } = {
-  LOGIN: `${BASE_ADDRESS}/User/login`,
+  LOGIN: `${BASE_ADDRESS}User/login`,
   REGISTER: `${BASE_ADDRESS}User/register`,
   CHANGE_PASS:`${BASE_ADDRESS}User/reset`,
 }

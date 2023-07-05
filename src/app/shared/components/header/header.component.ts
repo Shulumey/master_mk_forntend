@@ -7,7 +7,9 @@ import {DxToolbarModule} from 'devextreme-angular/ui/toolbar';
 import {Router} from '@angular/router';
 import {AuthService} from "../../../core/services";
 import {User} from "../../model/user";
-import {Role} from "../../model/role";
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {DxTooltipModule} from "devextreme-angular";
 
 @Component({
   selector: 'app-header',
@@ -16,6 +18,8 @@ import {Role} from "../../model/role";
 })
 
 export class HeaderComponent implements OnInit {
+  faRightFromBracket = faRightFromBracket
+
   @Output()
   menuToggle = new EventEmitter<boolean>();
 
@@ -25,7 +29,7 @@ export class HeaderComponent implements OnInit {
   @Input()
   title!: string;
 
-  user: User | null = {userName: '', role: Role.printer, token: null, fullName: ''};
+  user: User | undefined | null; //= {login: '', role: Role.printer, token: null, fullName: '', mustResetPassword: "False"};
 
   constructor(private authService: AuthService, private router: Router) {
   }
@@ -43,7 +47,9 @@ export class HeaderComponent implements OnInit {
   imports: [
     CommonModule,
     DxButtonModule,
-    DxToolbarModule
+    DxToolbarModule,
+    FontAwesomeModule,
+    DxTooltipModule
   ],
   declarations: [HeaderComponent],
   exports: [HeaderComponent]

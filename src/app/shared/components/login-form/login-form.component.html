@@ -1,5 +1,5 @@
 <form class="login-form" (submit)="onSubmit($event)">
-  <dx-form [formData]="formData" [disabled]="loading">
+  <dx-form [formData]="formData" [disabled]="isLoading">
 
     <dxi-item dataField="login" editorType="dxTextBox"
       [editorOptions]="{ stylingMode: 'filled', placeholder: 'логин', mode: 'login' }">
@@ -23,16 +23,16 @@
       </dxo-button-options>
     </dxi-item>
 
-    <dxi-item>
+  <!--  <dxi-item>
       <div class="link">
         <a routerLink="/reset-password">Forgot password?</a>
       </div>
-    </dxi-item>
+    </dxi-item>-->
 
     <ng-container *dxTemplate="let item of 'signInTemplate'">
       <div>
         <span class="dx-button-text">
-          <ng-container *ngIf="loading; else notLoading">
+          <ng-container *ngIf="isLoading; else notLoading">
             <dx-load-indicator width="24px" height="24px" [visible]="true"></dx-load-indicator>
           </ng-container>
           <ng-template #notLoading>Войти</ng-template>

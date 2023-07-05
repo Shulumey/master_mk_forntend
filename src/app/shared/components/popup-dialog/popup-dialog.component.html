@@ -1,0 +1,9 @@
+<dx-popup
+  [showTitle]="true"
+  [dragEnabled]="false"
+  [(visible)]="popupVisibility"
+  [closeOnOutsideClick]="true">
+  <div *dxTemplate="let data of 'content'">
+    <ng-container #dynamicContent></ng-container>
+  </div>
+</dx-popup>

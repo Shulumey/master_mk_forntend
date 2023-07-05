@@ -13,22 +13,19 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
-      tap(event=>{
-        if(event instanceof HttpResponse){
-          let response = request.body as ServerResponse | null;
-          if(response!==null && response.status === StatusEnum.error){
+      tap(event => {
+        if (event instanceof HttpResponse) {
+          let response = event.body as ServerResponse | null;
+          if (response !== null && response.status === StatusEnum.error) {
             throw new Error(response.result);
           }
         }
       }),
       catchError(err => {
-      if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].includes(err.status) && this.authService.isLoggedIn) {
-        this.authService.logOut();
-      }
-      const error = err.error.message || err.statusText;
-      this.layoutService.showError(error);
-
-      return throwError(() => error);
-    }));
+        if ([HttpStatusCode.Unauthorized, HttpStatusCode.Forbidden].includes(err.status) && this.authService.isLoggedIn) {
+          this.authService.logOut();
+        }
+        return throwError(() => err);
+      }));
   }
 }

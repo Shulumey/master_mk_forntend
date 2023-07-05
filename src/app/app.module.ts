@@ -3,14 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
-import { FooterModule, ChangePasswordFormModule, LoginFormModule } from './shared/components';
+import { FooterModule, ChangePasswordFormModule, LoginFormModule, PopupDialogModule } from './shared/components';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import {CoreModule} from "./core/core.module";
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -20,10 +20,12 @@ import {CoreModule} from "./core/core.module";
     FooterModule,
     ChangePasswordFormModule,
     LoginFormModule,
+    PopupDialogModule,
     UnauthenticatedContentModule,
     AppRoutingModule,
-    CoreModule
+    CoreModule,
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

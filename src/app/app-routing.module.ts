@@ -9,12 +9,11 @@ import {CoreModule} from "./core/core.module";
 import {AuthGuardService} from "./core/services";
 import {APP_ROUTES} from "./core/constants/app.routes";
 import {ProductcardsComponent} from "./pages/productcards/productcards.component";
-import {AppComponent} from "./app.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: AppComponent,
+    component: ProductcardsComponent,
     canActivate: [ AuthGuardService ]
   },
   {

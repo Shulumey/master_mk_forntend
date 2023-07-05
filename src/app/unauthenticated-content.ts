@@ -28,16 +28,16 @@ export class UnauthenticatedContentComponent {
   get title() {
     const path = this.router.url.split('/')[1];
     switch (path) {
-      case APP_ROUTES.LOGIN: return 'Аутентификация';
+      case APP_ROUTES.LOGIN: return 'Вход';
       case APP_ROUTES.CHANGE_PASSWORD: return 'Смена пароля';
-      default: return 'fwesf';
+      default: return '';
     }
   }
 
   get description() {
     const path = this.router.url.split('/')[1];
     switch (path) {
-      case APP_ROUTES.CHANGE_PASSWORD: return 'Please enter the email address that you used to register, and we will send you a link to reset your password via Email.';
+      case APP_ROUTES.CHANGE_PASSWORD: return 'Введите ваш логин и новый пароль';
       default: return '';
     }
   }
