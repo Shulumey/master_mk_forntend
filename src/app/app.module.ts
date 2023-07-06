@@ -7,6 +7,7 @@ import { FooterModule, ChangePasswordFormModule, LoginFormModule, PopupDialogMod
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import {CoreModule} from "./core/core.module";
+import {DialogsModule} from "./dialogs/dialogs.module";
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {CoreModule} from "./core/core.module";
     UnauthenticatedContentModule,
     AppRoutingModule,
     CoreModule,
+    DialogsModule
   ],
   bootstrap: [AppComponent]
 })

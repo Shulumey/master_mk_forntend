@@ -1,9 +1,23 @@
 <dx-popup
   [showTitle]="true"
   [dragEnabled]="false"
+  [showCloseButton] = "showCloseButton"
+  [title]="title"
+  [height]="height"
+  [width]="width"
   [(visible)]="popupVisibility"
-  [closeOnOutsideClick]="true">
-  <div *dxTemplate="let data of 'content'">
-    <ng-container #dynamicContent></ng-container>
-  </div>
+  [deferRendering]="false"
+  [hideOnOutsideClick] = "!isModal">
+
+
+      <ng-template #dynamicContent></ng-template>
+
+
+  <dxi-toolbar-item
+    *ngFor="let btn of dialogButtons"
+    widget="dxButton"
+    toolbar="bottom"
+    location="center"
+    [options]="btn">
+  </dxi-toolbar-item>
 </dx-popup>

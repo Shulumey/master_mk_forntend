@@ -1,9 +1,8 @@
 import {
   AfterViewInit,
-  Component,
-  ComponentFactoryResolver, ComponentRef,
+  Component, ComponentRef,
   NgModule,
-  OnInit,
+  OnInit, SimpleChanges,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -12,53 +11,76 @@ import {RouterModule} from "@angular/router";
 import {DxFormModule} from "devextreme-angular/ui/form";
 import {DxLoadIndicatorModule} from "devextreme-angular/ui/load-indicator";
 import {NgDestroyComponent} from "../../../core/ng.destroy.component";
-import {DxPopupModule} from "devextreme-angular";
+import {DxPopupModule, DxValidationGroupComponent, DxValidationGroupModule} from "devextreme-angular";
 import {DialogService, LayoutService} from "../../../core/services";
 import {DialogParams} from "../../model/dialog.params";
 import {NgDialogComponent} from "../../../core/ng.dialog.component";
+import {Properties} from "devextreme/ui/button";
 
 @Component({
   selector: 'app-popup-dialog',
   templateUrl: './popup-dialog.component.html',
   styleUrls: ['./popup-dialog.component.scss']
 })
-export class PopupDialogComponent extends NgDestroyComponent {
+export class PopupDialogComponent extends NgDestroyComponent implements AfterViewInit {
 
   @ViewChild('dynamicContent', {read: ViewContainerRef}) containerRef: ViewContainerRef;
 
-  private componentRef: ComponentRef<NgDialogComponent>;
+
+  componentRef: ComponentRef<NgDialogComponent>;
   popupVisibility: boolean;
-  title?: string;
+  title: string;
   showTitle: boolean
   isModal: boolean;
-  height?: number;
-  width?: number;
-  showCloseButton?: boolean;
+  height: number | string;
+  width: number | string;
+  showCloseButton: boolean;
+
+  dialogButtons: Properties[];
 
   constructor(layoutService: LayoutService, private dialogService: DialogService) {
     super(layoutService);
 
     this.popupVisibility = false;
-
-    this.appendToSubs(this.dialogService.showDialog$.subscribe(params => {
-      this.configureDialog(params);
-      this.containerRef.clear();
-      this.componentRef = this.containerRef.createComponent(params.component);
-      this.componentRef.instance
-    }));
-
-    this.appendToSubs(this.dialogService.dialogVisibility$.subscribe(isVisible => this.popupVisibility = isVisible));
-
+   // this.showDialog = this.showDialog.bind(this);
+    this.appendToSubs(this.dialogService.showDialog$.subscribe(params => this.showDialog(params)));
   }
 
-  configureDialog(params:DialogParams<NgDialogComponent>){
-    if(params.title){
+  showDialog(dialogParams:DialogParams<NgDialogComponent>){
+    this.configureDialog(dialogParams);
+    this.containerRef.clear();
+
+    this.componentRef = this.containerRef.createComponent(dialogParams.component);
+    this.dialogButtons = this.componentRef.instance.dialogButtons;
+    this.appendToSubs(this.componentRef.instance.onVisibilityChanged.subscribe(isVisible => this.popupVisibility = isVisible));
+    this.popupVisibility = true;
+  }
+  configureDialog(params: DialogParams<NgDialogComponent>) {
+    if (params.title) {
       this.title = params.title;
       this.showTitle = true;
     } else {
       this.showTitle = false;
     }
 
+    this.showCloseButton = params.showCloseButton || true;
+    this.isModal = params.isModal || true;
+    this.height = params.height || "auto";
+    this.width = params.width || "auto";
+  }
+
+  async onOkClick(e: any) {
+    if (this.componentRef.instance.onCanConfirm()) {
+      this.componentRef.instance.onConfirm();
+      this.popupVisibility = false;
+    }
+  }
+
+  onCancelClick(e: any) {
+    if (this.componentRef.instance.onCanClose()) {
+      this.componentRef.instance.onClose();
+      this.popupVisibility = false;
+    }
   }
 
   override ngOnDestroy() {
@@ -66,6 +88,10 @@ export class PopupDialogComponent extends NgDestroyComponent {
     if (this.componentRef) {
       this.componentRef.destroy();
     }
+  }
+
+  ngAfterViewInit(): void {
+
   }
 }
 
@@ -75,7 +101,8 @@ export class PopupDialogComponent extends NgDestroyComponent {
     RouterModule,
     DxFormModule,
     DxLoadIndicatorModule,
-    DxPopupModule
+    DxPopupModule,
+    DxValidationGroupModule
   ],
   declarations: [PopupDialogComponent],
   exports: [PopupDialogComponent]

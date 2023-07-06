@@ -5,11 +5,12 @@ import {DxButtonModule} from 'devextreme-angular/ui/button';
 import {DxToolbarModule} from 'devextreme-angular/ui/toolbar';
 
 import {Router} from '@angular/router';
-import {AuthService} from "../../../core/services";
+import {AuthService, DialogService} from "../../../core/services";
 import {User} from "../../model/user";
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {DxTooltipModule} from "devextreme-angular";
+import {SettingsDialogComponent} from "../../../dialogs/settings-dialog/settings-dialog.component";
 
 @Component({
   selector: 'app-header',
@@ -31,7 +32,8 @@ export class HeaderComponent implements OnInit {
 
   user: User | undefined | null; //= {login: '', role: Role.printer, token: null, fullName: '', mustResetPassword: "False"};
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, public dialogService: DialogService, private router: Router) {
+    this.showSettings = this.showSettings.bind(this);
   }
 
   ngOnInit() {
@@ -40,6 +42,10 @@ export class HeaderComponent implements OnInit {
 
   toggleMenu = () => {
     this.menuToggle.emit();
+  }
+
+  showSettings(){
+    this.dialogService.showDialog(SettingsDialogComponent,'Настройки');
   }
 }
 

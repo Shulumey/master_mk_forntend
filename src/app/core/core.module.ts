@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {AppInfoService, AuthGuardService, AuthService, LayoutService, ScreenService} from "./services";
+import {AppInfoService, AuthGuardService, AuthService, DialogService, LayoutService, ScreenService} from "./services";
 import {environment} from "../../environments/environment";
 import {BrowserAppStorageService} from "./services/browser-app-storage.service";
 import {DesktopAppStorageService} from "./services/desktop-app-storage.service";
@@ -15,6 +15,7 @@ import {ErrorInterceptor} from "./intercepters/error.interceptor";
   providers: [
     ScreenService,
     LayoutService,
+    DialogService,
     AppInfoService,
     AuthService,
     AuthGuardService,
