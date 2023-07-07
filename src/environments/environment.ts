@@ -9,7 +9,7 @@ export const environment = {
   production: false,
   isDesktop: () => isElectron(),
   isBrowser: () => !isElectron(),
-  apiUrl: "https://localhost:7211/",
+  apiUrl: "https://localhost:7211",
 };
 
 /*

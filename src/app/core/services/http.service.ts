@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Event, NavigationEnd, Router} from "@angular/router";
+import {Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {catchError, filter, map, timeout} from "rxjs/operators";
 import {Observer, Subscription, TimeoutError} from "rxjs";
@@ -18,40 +18,38 @@ export class HttpService {
 
   constructor(
     private _layoutService: LayoutService,
-    private _router: Router,
     private _httpClient: HttpClient,
   ) {
-    this._router.events.pipe(
-      filter((event: Event) => event instanceof NavigationEnd))
-      .subscribe(() => this.onNavigationEnd());
   }
 
-  public get<T>(url: string, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void): Subscription {
+  public get<T>(url: string, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void) {
     const sub: Subscription = this.sendRequest<T>("GET", url, undefined, {
       next: successCallback,
       error: (err) => {
         this.requestEnded(sub, url);
         this.handleError(err, onErrorCallback);
+        sub.unsubscribe();
       },
       complete: () => {
         this.requestEnded(sub, url);
+        sub.unsubscribe();
       }
     });
-    return sub;
   }
 
-  public post<T>(url: string, body: any, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void): Subscription {
+  public post<T>(url: string, body: any, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void) {
     const sub: Subscription = this.sendRequest<T>("POST", url, body, {
       next: successCallback,
       error: (err) => {
         this.requestEnded(sub, url);
         this.handleError(err, onErrorCallback);
+        sub.unsubscribe();
       },
       complete: () => {
         this.requestEnded(sub, url);
+        sub.unsubscribe();
       }
     });
-    return sub;
   }
 
   public put<T>(url: string, body: any, successCallback: (result: T | null) => void, onErrorCallback?: (x: any) => void): Subscription {
@@ -78,7 +76,7 @@ export class HttpService {
     return this.requestStarted(sub, url);
   }
 
-  private onNavigationEnd(): void {
+  public destroySubs(): void {
     if (this._pendingRequests && this._pendingRequests.size > 0) {
       for (const [sub, url] of this._pendingRequests) {
         if (sub && !sub.closed) {
@@ -92,7 +90,7 @@ export class HttpService {
   }
 
   private requestStarted(sub: Subscription, url: string): Subscription {
-    this._pendingRequests.set(sub, url);
+    //this._pendingRequests.set(sub, url);
 
     this._layoutService.loadStart();
 

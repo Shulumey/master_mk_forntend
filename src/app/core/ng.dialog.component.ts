@@ -32,7 +32,7 @@ export abstract class NgDialogComponent extends NgDestroyComponent {
       {
         type:"default",
         text : "Отмена",
-        stylingMode:"text",
+        stylingMode:"outlined",
         onClick:(e)=>{
           if (this.onCanClose()) {
             this.onClose();

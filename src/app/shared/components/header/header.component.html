@@ -19,6 +19,15 @@
     </dxi-item>
     <dxi-item
       location="center"
+      *ngIf="license">
+      <div class="flex flex-column text-left">
+        <span class="font-medium">{{license.subject}}</span>
+        <span>ИНН: {{license.inn}}</span>
+      </div>
+    </dxi-item>
+    <dxi-item
+      location="after"
+      cssClass="text-base"
       *ngIf="user"
       [text]="user.fullName">
     </dxi-item>

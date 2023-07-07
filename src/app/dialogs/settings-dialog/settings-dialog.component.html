@@ -1,1 +1,20 @@
-<p>settings-dialog works!</p>
+
+  <dx-tab-panel id="tabPanel">
+    <dxi-item title="Общие">
+      <dx-form [formData]="settings" [disabled]="isLoading" labelMode="floating">
+        <dxi-item dataField="login" editorType="dxSelectBox">
+          <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
+        </dxi-item>
+        <dxi-item dataField="login" editorType="dxTextBox">
+          <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
+        </dxi-item>
+      </dx-form>
+    </dxi-item>
+    <dxi-item title="СУЗ">
+      <!-- ... -->
+    </dxi-item>
+    <dxi-item title="Служба">
+      <!-- ... -->
+    </dxi-item>
+  </dx-tab-panel>
+

@@ -1,16 +1,16 @@
 <dx-popup
   [showTitle]="true"
   [dragEnabled]="false"
-  [showCloseButton] = "showCloseButton"
+  [showCloseButton]="showCloseButton"
   [title]="title"
   [height]="height"
   [width]="width"
   [(visible)]="popupVisibility"
   [deferRendering]="false"
-  [hideOnOutsideClick] = "!isModal">
+  [hideOnOutsideClick]="!isModal">
 
 
-      <ng-template #dynamicContent></ng-template>
+  <ng-template #dynamicContent></ng-template>
 
 
   <dxi-toolbar-item

@@ -9,6 +9,7 @@ import {LayoutService} from "../../core/services";
 })
 export class SettingsDialogComponent extends NgDialogComponent{
 
+  settings: any = {}
   constructor(layoutService: LayoutService) {
     super(layoutService);
   }
