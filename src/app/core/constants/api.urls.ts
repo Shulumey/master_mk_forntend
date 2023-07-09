@@ -6,12 +6,14 @@ export const API_URLS: {
   LOGIN: string,
   REGISTER: string,
   CHANGE_PASS: string,
-  LICENSE: string
+  LICENSE: string,
+  GET_CERTIFICATES: string,
 } = {
-  LOGIN: `${BASE_ADDRESS}/User/login`,
-  REGISTER: `${BASE_ADDRESS}/User/register`,
-  CHANGE_PASS:`${BASE_ADDRESS}/User/reset`,
-  LICENSE:`${BASE_ADDRESS}/License`
+  LOGIN: `${BASE_ADDRESS}/auth/login`,
+  REGISTER: `${BASE_ADDRESS}/auth/register`,
+  CHANGE_PASS:`${BASE_ADDRESS}/auth/reset`,
+  LICENSE:`${BASE_ADDRESS}/license`,
+  GET_CERTIFICATES: `${BASE_ADDRESS}/certificate`
 }
 
 

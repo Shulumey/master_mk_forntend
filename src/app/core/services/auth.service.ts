@@ -50,7 +50,7 @@ export class AuthService {
     formData.append("user", login);
     formData.append("password", password);
 
-    this.httpService.post<string>(API_URLS.LOGIN, formData, token => {
+    this.httpService.post<string>(API_URLS.LOGIN, formData).subscribe(token => {
       let user: User | null = this.jwtHelper.decodeToken<User>(token || '');
       if (user && user.mustResetPassword == "True") {
         this.router.navigate([APP_ROUTES.CHANGE_PASSWORD], {
@@ -91,7 +91,7 @@ export class AuthService {
     formData.append("user", userName);
     formData.append("password", newPassword);
 
-    this.httpService.post(API_URLS.CHANGE_PASS, formData, () => {
+    this.httpService.post(API_URLS.CHANGE_PASS, formData).subscribe(() => {
       this.router.navigate([APP_ROUTES.LOGIN])
       this.layoutService.showSuccess("Пароль успешно изменен");
     });

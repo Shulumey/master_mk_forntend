@@ -29,9 +29,10 @@ export class AppInfoService {
   }
 
   loadLicense() {
-    this.httpService.get<License>(API_URLS.LICENSE, (license) => {
+    this.httpService.get<License>(API_URLS.LICENSE)
+      .subscribe((license) => {
       this.licenseSub$.next(license);
-    })
+    });
   }
 
   public get currentYear() {

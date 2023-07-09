@@ -1,20 +1,45 @@
+<dx-tab-panel id="tabPanel" height="100%">
+  <dxi-item title="Общие">
+    <dx-form [formData]="settings" [disabled]="isLoading" labelMode="floating" class="p-2">
+      <dxi-item template="certificateTemplate">
+        <dxo-label text="Сертификат"></dxo-label>
+        <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
+        <div *dxTemplate="let temp of 'certificateTemplate'">
+          <dx-drop-down-box width="100%"
+                            [(value)]="selectedCertificate"
+                            displayExpr="subject"
+                            [deferRendering]="false"
+                            valueExpr="thumbnail">
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid [dataSource]="certificates"
+                            [hoverStateEnabled]="true"
+                            [(selectedRowKeys)]="selectedCertificate"
+                            height="100%"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
 
-  <dx-tab-panel id="tabPanel">
-    <dxi-item title="Общие">
-      <dx-form [formData]="settings" [disabled]="isLoading" labelMode="floating">
-        <dxi-item dataField="login" editorType="dxSelectBox">
-          <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
-        </dxi-item>
-        <dxi-item dataField="login" editorType="dxTextBox">
-          <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
-        </dxi-item>
-      </dx-form>
-    </dxi-item>
-    <dxi-item title="СУЗ">
-      <!-- ... -->
-    </dxi-item>
-    <dxi-item title="Служба">
-      <!-- ... -->
-    </dxi-item>
-  </dx-tab-panel>
+                <dxi-column caption="Название" dataField="FullName"></dxi-column>
+                <dxi-column caption="Действителен с" dataField="Position"></dxi-column>
+                <dxi-column caption="Действителен по" dataField="Position"></dxi-column>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </dxi-item>
+      <dxi-item dataField="ModId" editorType="dxTextBox">
+        <dxo-label text="Место осуществления дейтельности (МОД)"></dxo-label>
+        <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
+      </dxi-item>
+    </dx-form>
+  </dxi-item>
+  <dxi-item title="СУЗ">
+    <!-- ... -->
+  </dxi-item>
+  <dxi-item title="Служба">
+    <!-- ... -->
+  </dxi-item>
+</dx-tab-panel>
 
