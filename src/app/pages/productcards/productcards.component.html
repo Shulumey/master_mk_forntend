@@ -1,1 +1,58 @@
-<p>productcards works!</p>
+<div class="flex flex-column p-3">
+  <dx-toolbar class="p-2">
+    <dxi-item location="before" widget="dxButton">
+      <div *dxTemplate="let data of 'openMenuItemTemplate'">
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faArrowsRotate"></fa-icon>
+            <span>Обновить</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before"
+              menuItemTemplate="openMenuItemTemplate"
+              widget="dxButton">
+      <div *dxTemplate="let data of 'openMenuItemTemplate'">
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faArrowUpRightFromSquare"></fa-icon>
+            <span>Открыть</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before"
+              menuItemTemplate="openMenuItemTemplate"
+              widget="dxDropDownButton">
+      <div *dxTemplate>
+        <dx-drop-down-button text="Загрузить"
+                             displayExpr="display"
+                             [dropDownOptions]="{ width: 400 }"
+                             [(items)]="downloadsMenuItems"
+                             icon="download">
+
+        </dx-drop-down-button>
+      </div>
+    </dxi-item>
+  </dx-toolbar>
+  <dx-data-grid [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [remoteOperations]="true"
+                height="100%">
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+    <dxi-column caption="Код товара" dataField="gtin"></dxi-column>
+    <dxi-column caption="Наименование" dataField="name"></dxi-column>
+    <dxi-column caption="Товарный знак" dataField="brand"></dxi-column>
+    <dxi-column caption="Владелец" dataField="owner"></dxi-column>
+    <dxi-column caption="Уавковка" dataField="box"></dxi-column>
+    <dxi-column caption="Объем" dataField="boxVolume"></dxi-column>
+    <dxi-column caption="Материал упаковки" dataField="matBox"></dxi-column>
+  </dx-data-grid>
+</div>

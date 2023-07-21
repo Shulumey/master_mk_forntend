@@ -1,10 +1,43 @@
 <dx-tab-panel id="tabPanel" height="100%">
   <dxi-item title="Общие">
     <dx-form [formData]="settings" [disabled]="isLoading" labelMode="floating" class="p-2">
-      <dxi-item template="certificateTemplate">
+      <dxi-item template="certificateTemplate" [isRequired]="true">
         <dxo-label text="Сертификат"></dxo-label>
         <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
         <div *dxTemplate="let temp of 'certificateTemplate'">
+          <span>Сертификат:</span>
+          <dx-drop-down-box width="100%"
+                            [dataSource]="certificates"
+                            [(opened)]="isCertificateSelectOpened"
+                            [(value)]="selectedCertificate"
+                            [displayExpr]="onDisplayCertExp"
+                            [deferRendering]="false"
+                            (onOptionChanged)="onCertificateOptionChanged($event)"
+                            valueExpr="thumbnail">
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid [dataSource]="certificates"
+                            [hoverStateEnabled]="true"
+                            [(selectedRowKeys)]="selectedCertificate"
+                            height="100%"
+              >
+                <dxo-selection mode="single"></dxo-selection>
+                <dxo-filter-row [visible]="false"></dxo-filter-row>
+                <dxo-scrolling mode="virtual"></dxo-scrolling>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+                <dxi-column caption="Название" dataField="subject"></dxi-column>
+                <dxi-column caption="Действителен с" dataField="effectiveDate"></dxi-column>
+                <dxi-column caption="Действителен по" dataField="expirationDate"></dxi-column>
+              </dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </dxi-item>
+      <dxi-item dataField="ModId" editorType="dxTextBox">
+        <dxo-label text="Место осуществления дейтельности (МОД)"></dxo-label>
+        <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
+        <div *dxTemplate="let temp of 'certificateTemplate'">
+          <div class="dx-field-label">Место осуществления дейтельности (МОД):</div>
           <dx-drop-down-box width="100%"
                             [(value)]="selectedCertificate"
                             displayExpr="subject"
@@ -21,25 +54,64 @@
                 <dxo-scrolling mode="virtual"></dxo-scrolling>
                 <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
 
-                <dxi-column caption="Название" dataField="FullName"></dxi-column>
-                <dxi-column caption="Действителен с" dataField="Position"></dxi-column>
-                <dxi-column caption="Действителен по" dataField="Position"></dxi-column>
+                <dxi-column caption="Название" dataField="subject"></dxi-column>
+                <dxi-column caption="Действителен с" dataField="effectiveDate"></dxi-column>
+                <dxi-column caption="Действителен по" dataField="expirationDate"></dxi-column>
               </dx-data-grid>
             </div>
           </dx-drop-down-box>
         </div>
       </dxi-item>
-      <dxi-item dataField="ModId" editorType="dxTextBox">
-        <dxo-label text="Место осуществления дейтельности (МОД)"></dxo-label>
-        <dxi-validation-rule type="required" message="необходимо указать логин"></dxi-validation-rule>
-      </dxi-item>
     </dx-form>
   </dxi-item>
   <dxi-item title="СУЗ">
-    <!-- ... -->
+    <dx-form [formData]="settings" [disabled]="isLoading" labelMode="floating" class="p-2">
+      <dxi-item dataField="omsId" [isRequired]="true">
+        <dxo-label  text="Индентификатор интеграционного решения (Oms ID)"></dxo-label>
+      </dxi-item>
+      <dxi-item dataField="address" [isRequired]="true">
+        <dxo-label  text="Адрес установки"></dxo-label>
+      </dxi-item>
+      <dxi-item dataField="apiOmsConnection">
+        <div *dxTemplate="let data of 'content'">
+          <span>Индентификатор внешнего соединения Master MK API:</span>
+          <dx-text-box [(value)]="settings.apiOmsConnection">
+            <dxi-button
+              name="password"
+              [options]="apiConnectionOptions"
+              location="after"
+            ></dxi-button>
+            <dx-validator>
+              <dxi-validation-rule
+                type="required"
+                message="Password is required"
+              ></dxi-validation-rule>
+            </dx-validator>
+          </dx-text-box>
+        </div>
+      </dxi-item>
+      <dxi-item dataField="apiOmsConnection">
+        <div *dxTemplate="let data of 'content'">
+          <span>Индентификатор внешнего соединения Master MK Service:</span>
+          <dx-text-box  [(value)]="settings.serviceOmsConnection">
+            <dxi-button
+              name="password"
+              [options]="apiConnectionOptions"
+              location="after"
+            ></dxi-button>
+            <dx-validator>
+              <dxi-validation-rule
+                type="required"
+                message="Password is required"
+              ></dxi-validation-rule>
+            </dx-validator>
+          </dx-text-box>
+        </div>
+      </dxi-item>
+    </dx-form>
   </dxi-item>
-  <dxi-item title="Служба">
-    <!-- ... -->
-  </dxi-item>
+<!--  <dxi-item title="Служба">
+    &lt;!&ndash; ... &ndash;&gt;
+  </dxi-item>-->
 </dx-tab-panel>
 

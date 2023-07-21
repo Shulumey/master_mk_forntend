@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable} from "rxjs";
+import {BehaviorSubject, distinctUntilChanged, Observable} from "rxjs";
 import {License} from "../../shared/model/license";
 import {HttpService} from "./http.service";
 import {API_URLS} from "../constants/api.urls";
 
-@Injectable()
+@Injectable({
+  providedIn:"root"
+})
 export class AppInfoService {
 
   private licenseSub$: BehaviorSubject<License | null>;
@@ -29,10 +31,12 @@ export class AppInfoService {
   }
 
   loadLicense() {
-    this.httpService.get<License>(API_URLS.LICENSE)
-      .subscribe((license) => {
-      this.licenseSub$.next(license);
-    });
+    if(!this.hasLicense) {
+      this.httpService.get<License>(API_URLS.LICENSE)
+        .subscribe((license) => {
+          this.licenseSub$.next(license);
+        });
+    }
   }
 
   public get currentYear() {

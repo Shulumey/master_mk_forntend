@@ -6,7 +6,7 @@ import {
   DxDropDownBoxModule,
   DxDropDownButtonModule,
   DxFormModule,
-  DxTabPanelModule
+  DxTabPanelModule, DxTextBoxModule, DxValidatorModule
 } from "devextreme-angular";
 
 @NgModule({
@@ -17,7 +17,9 @@ import {
     DxTabPanelModule,
     DxDropDownButtonModule,
     DxDropDownBoxModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxTextBoxModule,
+    DxValidatorModule
   ]
 })
 export class DialogsModule { }

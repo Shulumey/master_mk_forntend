@@ -49,8 +49,12 @@ export class HeaderComponent implements OnInit {
     this.menuToggle.emit();
   }
 
+  logout = ()=>{
+    this.authService.logOut();
+  }
+
   showSettings() {
-    this.dialogService.showDialog(SettingsDialogComponent, 'Настройки', undefined, undefined, 400, 500);
+    this.dialogService.showDialog(SettingsDialogComponent, 'Настройки', undefined, undefined, 430, 500);
   }
 }
 

@@ -14,7 +14,9 @@ import {LayoutService} from "./layout.service";
 
 const userKey = "master_mk_user";
 
-@Injectable()
+@Injectable({
+  providedIn: "root"
+})
 export class AuthService {
 
   private userSub$;
@@ -52,6 +54,9 @@ export class AuthService {
 
     this.httpService.post<string>(API_URLS.LOGIN, formData).subscribe(token => {
       let user: User | null = this.jwtHelper.decodeToken<User>(token || '');
+      if (user) {
+        user.token = token;
+      }
       if (user && user.mustResetPassword == "True") {
         this.router.navigate([APP_ROUTES.CHANGE_PASSWORD], {
           queryParams: {
@@ -99,6 +104,7 @@ export class AuthService {
 
   logOut() {
     this.userSub$.next(null);
+    this.appStoreService.set(userKey, null);
     this.router.navigate([APP_ROUTES.LOGIN]);
   }
 
