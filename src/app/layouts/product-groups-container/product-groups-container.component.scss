@@ -1,0 +1,7 @@
+@import "../../../../src/themes/generated/variables.additional";
+
+::ng-deep .dx-tab.dx-tab-selected {
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  border-bottom-color: $base-accent;
+}

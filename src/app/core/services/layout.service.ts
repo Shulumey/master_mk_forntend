@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, debounce, distinctUntilChanged, Observable, Subject, timer} from "rxjs";
 import {SnackMessage} from "../../shared/model/snack.message";
+import {ProductGroup} from "../../shared/model/license";
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ export class LayoutService {
 
   private _messages$: Subject<SnackMessage> = new Subject<SnackMessage>();
   private _loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _currentProductGroup$: BehaviorSubject<ProductGroup | null> = new BehaviorSubject<ProductGroup | null>(null);
 
   public get loadding$(): Observable<boolean> {
     return this._loading$.pipe(
@@ -20,8 +22,12 @@ export class LayoutService {
     );
   }
 
+  public get productGroupChanged$(): Observable<ProductGroup | null> {
+    return this._currentProductGroup$;
+  }
+
   public get messages$(): Observable<SnackMessage> {
-    return this._messages$.pipe();
+    return this._messages$;
   }
 
   constructor() {
@@ -29,6 +35,10 @@ export class LayoutService {
 
   public loadStart(): void {
     this._loading$.next(true);
+  }
+
+  public changeProductGroup(productGroup: ProductGroup) {
+    this._currentProductGroup$.next(productGroup);
   }
 
   public loadEnd(): void {

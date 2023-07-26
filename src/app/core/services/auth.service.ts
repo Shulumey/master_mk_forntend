@@ -122,7 +122,6 @@ export class AuthGuardService implements CanActivate {
     const isLoggedIn = this.authService.isLoggedIn;
     const isAuthForm = [
       APP_ROUTES.LOGIN,
-      APP_ROUTES.CREATE_ACCOUNT,
       APP_ROUTES.CHANGE_PASSWORD
     ].includes(route.routeConfig?.path || APP_ROUTES.ROOT);
 

@@ -9,5 +9,6 @@
 
 export interface ProductGroup {
   id: number,
-  name: string
+  name: string,
+  display: string
 }

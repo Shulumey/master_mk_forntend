@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {HttpService} from "../../core/services/http.service";
 import {LayoutService} from "../../core/services";
-import {faArrowsRotate, faArrowUpRightFromSquare} from '@fortawesome/free-solid-svg-icons';
+import {faArrowsRotate, faArrowUpRightFromSquare, faBottleWater} from '@fortawesome/free-solid-svg-icons';
 import {NgDestroyComponent} from "../../core/ng.destroy.component";
-import {createStore} from "devextreme-aspnet-data";
+import {createStore} from "devextreme-aspnet-data-nojquery";
 
 @Component({
   selector: 'app-productcards',

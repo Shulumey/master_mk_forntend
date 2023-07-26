@@ -1,0 +1,12 @@
+<dx-tabs [dataSource]="productGroupsTabs"
+         [scrollByContent]="true"
+         itemTemplate="productGroup"
+         [(selectedItem)]="selectedTab"
+         [showNavButtons]="true">
+<div class="flex flex-row justify-content-center align-items-center" *dxTemplate="let item of 'productGroup'">
+  <div *ngIf="item.icon"><fa-icon class="dx-icon mr-1" [icon]="item.icon"></fa-icon></div>
+  <div>{{item.text}}</div>
+</div>
+</dx-tabs>
+
+

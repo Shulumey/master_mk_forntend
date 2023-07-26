@@ -1,9 +1,12 @@
 <ng-container *ngIf="isAuthenticated(); else unauthenticated">
-  <app-side-nav-outer-toolbar title="{{appInfo.title}}">
-    <router-outlet></router-outlet>
-    <app-footer>
-      Copyright © 2011-{{appInfo.currentYear}} {{appInfo.title}} Inc.
-    </app-footer>
+  <app-header
+    class="layout-header"
+    [menuToggleEnabled]="true"
+    title="{{appInfo.title}}">
+  </app-header>
+  <app-product-groups-container/>
+  <app-side-nav-outer-toolbar>
+    <router-outlet ></router-outlet>
     <app-popup-dialog></app-popup-dialog>
   </app-side-nav-outer-toolbar>
 </ng-container>

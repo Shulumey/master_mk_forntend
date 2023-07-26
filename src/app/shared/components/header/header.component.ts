@@ -45,10 +45,6 @@ export class HeaderComponent implements OnInit {
     this.user = this.authService.currentUserValue;
   }
 
-  toggleMenu = () => {
-    this.menuToggle.emit();
-  }
-
   logout = ()=>{
     this.authService.logOut();
   }

@@ -25,7 +25,7 @@
     "@fortawesome/angular-fontawesome": "^0.12.0",
     "devextreme": "^22.2.4",
     "devextreme-angular": "^22.2.4",
-    "devextreme-aspnet-data": "^2.9.3",
+    "devextreme-aspnet-data-nojquery": "^2.9.3",
     "devextreme-schematics": "^1.5.1",
     "is-electron": "^2.2.2",
     "primeflex": "^3.3.1",

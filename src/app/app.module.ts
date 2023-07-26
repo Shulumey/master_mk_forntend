@@ -2,8 +2,18 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { SideNavOuterToolbarModule, SideNavInnerToolbarModule, SingleCardModule } from './layouts';
-import { FooterModule, ChangePasswordFormModule, LoginFormModule, PopupDialogModule } from './shared/components';
+import {
+  SideNavOuterToolbarModule,
+  SideNavInnerToolbarModule,
+  SingleCardModule,
+  ProductGroupsContainerModule
+} from './layouts';
+import {
+  FooterModule,
+  ChangePasswordFormModule,
+  LoginFormModule,
+  PopupDialogModule, HeaderModule,
+} from './shared/components';
 import { UnauthenticatedContentModule } from './unauthenticated-content';
 import { AppRoutingModule } from './app-routing.module';
 import {CoreModule} from "./core/core.module";
@@ -22,10 +32,12 @@ import {DialogsModule} from "./dialogs/dialogs.module";
     ChangePasswordFormModule,
     LoginFormModule,
     PopupDialogModule,
+    ProductGroupsContainerModule,
     UnauthenticatedContentModule,
     AppRoutingModule,
     CoreModule,
-    DialogsModule
+    DialogsModule,
+    HeaderModule
   ],
   bootstrap: [AppComponent]
 })

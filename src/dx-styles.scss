@@ -27,11 +27,16 @@ html, body {
 
 .layout-body {
   flex: 1;
+  display: flex;
   min-height: 0;
 }
 
-.side-nav-outer-toolbar .dx-drawer {
-  height: calc(100% - 56px)
+.side-nav-outer-toolbar .layout-body {
+  height: calc(100% - 56px);
+
+  .nav-bar{
+    width: 250px;
+  }
 }
 
 .content-block {
@@ -72,4 +77,4 @@ html, body {
   }
 }
 
-$side-panel-min-width: 60px;
+$side-panel-min-width: 30px;

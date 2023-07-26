@@ -2,6 +2,7 @@
   @import "../themes/generated/variables.base.scss";
   background-color: darken($base-bg, 5.00);
   display: flex;
+  flex-direction: column;
   height: 100%;
   width: 100%;
 }

@@ -13,25 +13,45 @@ import {
 } from 'devextreme-angular';
 import {CoreModule} from "./core/core.module";
 import {AuthGuardService} from "./core/services";
-import {APP_ROUTES} from "./core/constants/app.routes";
+import {APP_ROUTES, ROUTS_PRODUCT_GROUPS} from "./core/constants/app.routes";
 import {ProductcardsComponent} from "./pages/productcards/productcards.component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ProductGroupGuard} from "./core/services/product-group.guard";
 
-const routes: Routes = [
+
+const childRoutes: Routes = [
   {
     path: '',
-    component: ProductcardsComponent,
-    canActivate: [ AuthGuardService ]
+    redirectTo: APP_ROUTES.PRODUCT_CARD,
+    pathMatch: 'full'
   },
   {
     path: APP_ROUTES.PRODUCT_CARD,
-    component: ProductcardsComponent,
+    component:ProductcardsComponent,
     canActivate: [ AuthGuardService ]
+  }
+]
+
+const productGroupsRoutes: Routes = [
+  {
+    path: ROUTS_PRODUCT_GROUPS.WATER,
+    children: childRoutes,
+    canActivate: [ ProductGroupGuard ]
+  },
+  {
+    path: ROUTS_PRODUCT_GROUPS.BEER_ZERO,
+    children: childRoutes,
+    canActivate: [ ProductGroupGuard ]
+  },
+  {
+    path: ROUTS_PRODUCT_GROUPS.SOFT_DRINKS,
+    children: childRoutes,
+    canActivate: [ ProductGroupGuard ]
   },
   {
     path: APP_ROUTES.LOGIN,
     component: LoginFormComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [ AuthGuardService ],
   },
   {
     path: APP_ROUTES.CHANGE_PASSWORD,
@@ -45,7 +65,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true}), DxDataGridModule, DxFormModule, CoreModule, DxToolbarModule, DxButtonModule, FontAwesomeModule, DxDropDownButtonModule],
+  imports: [RouterModule.forRoot(productGroupsRoutes, {useHash: true}),
+    DxDataGridModule,
+    DxFormModule,
+    CoreModule,
+    DxToolbarModule,
+    DxButtonModule,
+    FontAwesomeModule,
+    DxDropDownButtonModule],
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [
