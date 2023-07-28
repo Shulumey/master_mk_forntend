@@ -54,7 +54,7 @@ export class SettingsDialogComponent extends NgDialogComponent implements OnInit
     })
   }
 
-  onConfirm(): void {
+  override onConfirm(): void {
     this.appendToSubs(this.httpService.post(API_URLS.CONFIGURATION, this.settings)
       .subscribe(() => this.onClose()));
   }

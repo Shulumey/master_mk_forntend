@@ -1,6 +1,4 @@
-import {Injectable, Type} from '@angular/core';
-import {Observable, Subject} from "rxjs";
-import {SnackMessage} from "../../shared/model/snack.message";
+import {EventEmitter, Injectable, Type} from '@angular/core';
 import {DialogParams} from "../../shared/model/dialog.params";
 import {NgDialogComponent} from "../ng.dialog.component";
 
@@ -9,32 +7,43 @@ import {NgDialogComponent} from "../ng.dialog.component";
 })
 export class DialogService {
 
-  private _onDialogShow: Subject<DialogParams<NgDialogComponent>> = new Subject<DialogParams<NgDialogComponent>>();
+  private _onDialogShow: EventEmitter<DialogParams<NgDialogComponent, any>> = new EventEmitter<DialogParams<NgDialogComponent, any>>();
 
-  public get showDialog$(): Observable<DialogParams<NgDialogComponent>> {
-    return this._onDialogShow.pipe();
+  public get showDialog$(): EventEmitter<DialogParams<NgDialogComponent, any>> {
+    return this._onDialogShow;
   }
 
-  public showDialog<T extends NgDialogComponent>(component: Type<T>,title?: string, isModal?: boolean, showCloseButton?: boolean,  height?: number, width?: number){
-    let parameters: DialogParams<T>  = new class implements DialogParams<T> {
-      component: Type<T>;
-      height?: number;
-      isModal?: boolean;
-      showCloseButton?: boolean;
-      title?: string;
-      width?: number;
-    }
+  public showDialog<T extends NgDialogComponent, TResult>(component: Type<T>, title?: string, isModal?: boolean, showCloseButton?: boolean, height?: number, width?: number): Promise<TResult> {
+    return new Promise<TResult>((resolve, reject) => {
+      let parameters: DialogParams<T, TResult> = new class implements DialogParams<T, TResult> {
+        reject(reason: any): void {
+        }
 
-    parameters.title = title;
-    parameters.isModal = isModal;
-    parameters.height = height;
-    parameters.width = width;
-    parameters.component = component;
+        resolve<TResult>(value: PromiseLike<TResult> | TResult): void {
+        }
 
-    parameters.showCloseButton = showCloseButton;
+        result: Promise<TResult>;
+        component: Type<T>;
+        height?: number;
+        isModal?: boolean;
+        showCloseButton?: boolean;
+        title?: string;
+        width?: number;
+      }
 
-    this._onDialogShow.next(parameters);
+      parameters.title = title;
+      parameters.isModal = isModal;
+      parameters.height = height;
+      parameters.width = width;
+      parameters.component = component;
+      parameters.resolve = resolve;
+      parameters.reject = reject;
+      parameters.showCloseButton = showCloseButton;
+
+      this._onDialogShow.emit(parameters);
+    });
   }
 
-  constructor() { }
+  constructor() {
+  }
 }

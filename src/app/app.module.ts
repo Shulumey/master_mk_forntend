@@ -20,9 +20,7 @@ import {CoreModule} from "./core/core.module";
 import {DialogsModule} from "./dialogs/dialogs.module";
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     SideNavOuterToolbarModule,

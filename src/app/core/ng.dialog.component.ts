@@ -6,23 +6,22 @@ import {Properties} from "devextreme/ui/button";
 @Directive()
 export abstract class NgDialogComponent extends NgDestroyComponent {
 
-  public onChanged: EventEmitter<SimpleChanges>
   public onVisibilityChanged: EventEmitter<boolean>;
 
   public dialogButtons: Properties[]
+  public resolver: ((value: any | PromiseLike<any>) => void) ;
 
   protected constructor(layoutService: LayoutService) {
     super(layoutService);
-    this.onChanged = new EventEmitter<SimpleChanges>();
     this.onVisibilityChanged = new EventEmitter<boolean>();
 
     this.dialogButtons = [
       {
-        type:"default",
-        text : "ОК",
-        stylingMode:"contained",
+        type: "default",
+        text: "ОК",
+        stylingMode: "contained",
         useSubmitBehavior: true,
-        onClick:(e)=>{
+        onClick: (e) => {
           let result = e.validationGroup.validate();
           if (result.isValid && this.onCanConfirm()) {
             this.onConfirm();
@@ -30,10 +29,10 @@ export abstract class NgDialogComponent extends NgDestroyComponent {
         }
       },
       {
-        type:"default",
-        text : "Отмена",
-        stylingMode:"outlined",
-        onClick:(e)=>{
+        type: "default",
+        text: "Отмена",
+        stylingMode: "outlined",
+        onClick: (e) => {
           if (this.onCanClose()) {
             this.onClose();
           }
@@ -42,21 +41,24 @@ export abstract class NgDialogComponent extends NgDestroyComponent {
     ]
   }
 
-  abstract onConfirm(): void;
+  onConfirm(): void {
+    if (this.resolver) {
+      this.resolver(null);
+    }
+  }
 
   onCanConfirm(): boolean {
-    return true;
+    return this.resolver !== undefined;
   }
 
   onClose(): void {
-    this.onVisibilityChanged.emit(false);
+    if(this.onCanClose()){
+      this.onVisibilityChanged.emit(false);
+    }
   }
 
   onCanClose(): boolean {
     return true;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-
-  }
 }

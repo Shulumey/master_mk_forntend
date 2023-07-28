@@ -26,7 +26,6 @@ export class PopupDialogComponent extends NgDestroyComponent implements AfterVie
 
   @ViewChild('dynamicContent', {read: ViewContainerRef}) containerRef: ViewContainerRef;
 
-
   componentRef: ComponentRef<NgDialogComponent>;
   popupVisibility: boolean;
   title: string;
@@ -35,27 +34,28 @@ export class PopupDialogComponent extends NgDestroyComponent implements AfterVie
   height: number | string;
   width: number | string;
   showCloseButton: boolean;
-
   dialogButtons: Properties[];
 
   constructor(layoutService: LayoutService, private dialogService: DialogService) {
     super(layoutService);
 
     this.popupVisibility = false;
-   // this.showDialog = this.showDialog.bind(this);
+    // this.showDialog = this.showDialog.bind(this);
     this.appendToSubs(this.dialogService.showDialog$.subscribe(params => this.showDialog(params)));
   }
 
-  showDialog(dialogParams:DialogParams<NgDialogComponent>){
+  showDialog(dialogParams: DialogParams<NgDialogComponent, any>) {
     this.configureDialog(dialogParams);
     this.containerRef.clear();
 
     this.componentRef = this.containerRef.createComponent(dialogParams.component);
+    this.componentRef.instance.resolver = dialogParams.resolve;
     this.dialogButtons = this.componentRef.instance.dialogButtons;
     this.appendToSubs(this.componentRef.instance.onVisibilityChanged.subscribe(isVisible => this.popupVisibility = isVisible));
     this.popupVisibility = true;
   }
-  configureDialog(params: DialogParams<NgDialogComponent>) {
+
+  configureDialog(params: DialogParams<NgDialogComponent, any>) {
     if (params.title) {
       this.title = params.title;
       this.showTitle = true;
@@ -63,24 +63,10 @@ export class PopupDialogComponent extends NgDestroyComponent implements AfterVie
       this.showTitle = false;
     }
 
-    this.showCloseButton = params.showCloseButton || true;
-    this.isModal = params.isModal || true;
+    this.showCloseButton = params.showCloseButton == undefined ? false : params.showCloseButton;
+    this.isModal = params.isModal == undefined ? false : params.isModal;
     this.height = params.height || "auto";
     this.width = params.width || "auto";
-  }
-
-  async onOkClick(e: any) {
-    if (this.componentRef.instance.onCanConfirm()) {
-      this.componentRef.instance.onConfirm();
-      this.popupVisibility = false;
-    }
-  }
-
-  onCancelClick(e: any) {
-    if (this.componentRef.instance.onCanClose()) {
-      this.componentRef.instance.onClose();
-      this.popupVisibility = false;
-    }
   }
 
   override ngOnDestroy() {

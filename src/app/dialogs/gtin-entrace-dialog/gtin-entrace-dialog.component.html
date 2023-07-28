@@ -1,0 +1,14 @@
+<div class="flex flex-column m-2">
+  <dx-text-box [(value)]="gtin"
+               maxLength="14"
+               placeholder="Введите код товара (GTIN)">
+    <dx-validator>
+      <dxi-validation-rule
+        type="required"
+        message="Необходимо указать значение"></dxi-validation-rule>
+      <dxi-validation-rule type="pattern"
+                           pattern="\d{14}"
+        message="GTIN должен содержать 14 цифр"></dxi-validation-rule>
+    </dx-validator>
+  </dx-text-box>
+</div>

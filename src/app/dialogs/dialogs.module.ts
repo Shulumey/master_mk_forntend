@@ -8,9 +8,11 @@ import {
   DxFormModule,
   DxTabPanelModule, DxTextBoxModule, DxValidatorModule
 } from "devextreme-angular";
+import { GtinEntraceDialogComponent } from './gtin-entrace-dialog/gtin-entrace-dialog.component';
+import { ProductCardDialogComponent } from './product-card-dialog/product-card-dialog.component';
 
 @NgModule({
-  declarations: [SettingsDialogComponent],
+  declarations: [SettingsDialogComponent, GtinEntraceDialogComponent, ProductCardDialogComponent],
   imports: [
     CommonModule,
     DxFormModule,

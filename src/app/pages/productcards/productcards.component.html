@@ -2,7 +2,7 @@
   <dx-toolbar class="p-2">
     <dxi-item location="before" widget="dxButton">
       <div *dxTemplate="let data of 'openMenuItemTemplate'">
-        <dx-button>
+        <dx-button (onClick)="onRefresh($event)">
           <div class="flex">
             <fa-icon class="dx-icon mr-1" [icon]="faArrowsRotate"></fa-icon>
             <span>Обновить</span>
@@ -32,6 +32,7 @@
                              displayExpr="display"
                              [dropDownOptions]="{ width: 400 }"
                              [(items)]="downloadsMenuItems"
+                             (onItemClick)="onLoadProductItemClick($event)"
                              icon="download">
 
         </dx-drop-down-button>
@@ -40,6 +41,7 @@
   </dx-toolbar>
   <dx-data-grid [hoverStateEnabled]="true"
                 [showBorders]="true"
+                [dataSource]="dataSource"
                 [remoteOperations]="true"
                 height="100%">
     <dxo-selection mode="single"></dxo-selection>

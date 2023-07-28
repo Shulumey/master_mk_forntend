@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit {
   }
 
   showSettings() {
-    this.dialogService.showDialog(SettingsDialogComponent, 'Настройки', undefined, undefined, 430, 500);
+    this.dialogService.showDialog(SettingsDialogComponent, 'Настройки', false, undefined, 430, 500);
   }
 }
 

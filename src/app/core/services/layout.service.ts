@@ -26,6 +26,10 @@ export class LayoutService {
     return this._currentProductGroup$;
   }
 
+  public get currentProductGroup(): ProductGroup | null {
+    return this._currentProductGroup$.value;
+  }
+
   public get messages$(): Observable<SnackMessage> {
     return this._messages$;
   }

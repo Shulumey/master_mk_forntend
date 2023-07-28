@@ -45,7 +45,7 @@ export class ProductGroupsContainerComponent extends NgDestroyComponent {
       }))
     ).subscribe(data => {
       this.productGroupsTabs = data || []
-      this.selectedTab = this.productGroupsTabs[0];
+      this.selectedTab = this.productGroupsTabs[1];
     });
 
     this.$watch("selectedTab", ()=>{
@@ -54,9 +54,6 @@ export class ProductGroupsContainerComponent extends NgDestroyComponent {
     });
   }
 
-  selectTab(e: any) {
-
-  }
 }
 
 interface Tab {
