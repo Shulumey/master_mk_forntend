@@ -11,8 +11,6 @@ export const API_URLS: {
   LICENSE: string,
   GET_CERTIFICATES: string,
   CONFIGURATION: string,
-  GET_PRODUCTS: string,
-  LOAD_PRODUCTS: string
 } = {
   LOGIN: `${BASE_ADDRESS}/auth/login`,
   REGISTER: `${BASE_ADDRESS}/auth/register`,
@@ -20,16 +18,20 @@ export const API_URLS: {
   LICENSE: `${BASE_ADDRESS}/license`,
   GET_CERTIFICATES: `${BASE_ADDRESS}/certificate`,
   CONFIGURATION: `${BASE_ADDRESS}/configuration`,
-  GET_PRODUCTS: `${BASE_ADDRESS}/products`,
-  LOAD_PRODUCTS: `${BASE_ADDRESS}/products/load`,
 }
 
 export const PRODUCT_GROUP_API_URLS: {
-  GET_PRODUCTS: Function,
-  LOAD_PRODUCTS: Function
+  GET_PRODUCTS: (productGroup: ProductGroup) => string,
+  LOAD_PRODUCTS: (productGroup: ProductGroup) => string,
+  GET_ORDERS: (productGroup: ProductGroup) => string,
+  GET_ORDER: (productGroup: ProductGroup, orderId: number) => string,
+  CREATE_ORDER: (productGroup: ProductGroup) => string,
 } = {
-  GET_PRODUCTS: (productGroup: ProductGroup) => `${BASE_ADDRESS}/${productGroup.name}/products`,
-  LOAD_PRODUCTS: (productGroup: ProductGroup) => `${BASE_ADDRESS}/${productGroup.name}/products/load`,
+  GET_PRODUCTS: (productGroup) => `${BASE_ADDRESS}/${productGroup.name}/products`,
+  LOAD_PRODUCTS: (productGroup) => `${BASE_ADDRESS}/${productGroup.name}/products/load`,
+  GET_ORDERS: (productGroup) => `${BASE_ADDRESS}/${productGroup.name}/order/all`,
+  CREATE_ORDER: (productGroup) => `${BASE_ADDRESS}/${productGroup.name}/order/create`,
+  GET_ORDER: (productGroup, orderId) => `${BASE_ADDRESS}/${productGroup.name}/order/${orderId}`,
 }
 
 

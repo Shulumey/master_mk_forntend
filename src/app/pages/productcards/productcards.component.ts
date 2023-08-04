@@ -32,7 +32,7 @@ export class ProductcardsComponent extends NgDestroyComponent implements AfterVi
 
     this.dataSource = createStore({
       key: "id",
-      loadUrl: PRODUCT_GROUP_API_URLS.GET_PRODUCTS(this.layoutService.currentProductGroup)
+      loadUrl: PRODUCT_GROUP_API_URLS.GET_PRODUCTS(this.layoutService.currentProductGroup!)
     })
 
   }
@@ -45,7 +45,7 @@ export class ProductcardsComponent extends NgDestroyComponent implements AfterVi
     switch (e.itemData.name) {
       case 'publicCards': {
         let gtin = await this.dialogService.showDialog<GtinEntraceDialogComponent, string>(GtinEntraceDialogComponent, undefined, false, false);
-        this.httpService.post(PRODUCT_GROUP_API_URLS.LOAD_PRODUCTS(this.layoutService.currentProductGroup),[gtin]).subscribe(async()=>{
+        this.httpService.post(PRODUCT_GROUP_API_URLS.LOAD_PRODUCTS(this.layoutService.currentProductGroup!),[gtin]).subscribe(async()=>{
            await this.onRefresh()
         })
         break;

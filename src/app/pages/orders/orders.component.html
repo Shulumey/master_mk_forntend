@@ -1,0 +1,72 @@
+<div>
+  <dx-toolbar class="p-2">
+    <dxi-item location="before" widget="dxButton">
+      <div>
+        <dx-button (onClick)="onRefresh($event)">
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faArrowsRotate"></fa-icon>
+            <span>Обновить</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before"
+              menuItemTemplate="openMenuItemTemplate"
+              widget="dxButton">
+      <div>
+        <dx-button [routerLink]="createOrderLink">
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faPlus"></fa-icon>
+            <span>Создать заказ</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before"
+              menuItemTemplate="openMenuItemTemplate"
+              widget="dxButton">
+      <div *dxTemplate="let data of 'openMenuItemTemplate'">
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faPaperPlane"></fa-icon>
+            <span>Отправить</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before"
+              menuItemTemplate="openMenuItemTemplate"
+              widget="dxButton">
+      <div *dxTemplate="let data of 'openMenuItemTemplate'">
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faReceipt"></fa-icon>
+            <span>Квитанции</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+  </dx-toolbar>
+  <dx-data-grid [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [dataSource]="dataSource"
+                [remoteOperations]="true"
+                height="100%">
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+    <dxi-column caption="ID заказа" dataField="gtin"></dxi-column>
+    <dxi-column caption="ID производственного заказа" dataField="name"></dxi-column>
+    <dxi-column caption="Дата создания" dataField="brand"></dxi-column>
+    <dxi-column caption="Кол-во товаров" dataField="owner"></dxi-column>
+    <dxi-column caption="Кол-во КМ" dataField="box"></dxi-column>
+    <dxi-column caption="Статус" dataField="boxVolume"></dxi-column>
+    <dxi-column caption="Причина отказа" dataField="matBox"></dxi-column>
+  </dx-data-grid>
+</div>

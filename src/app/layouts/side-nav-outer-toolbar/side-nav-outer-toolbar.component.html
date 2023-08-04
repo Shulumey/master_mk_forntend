@@ -8,9 +8,13 @@
     </app-side-navigation-menu>
   </div>
 
-  <dx-scroll-view class="with-footer">
+  <dx-scroll-view class="with-footer w-full">
     <div class="content">
-      <ng-content></ng-content>
+      <div class="flex flex-column p-3">
+        <div class="dx-card">
+          <ng-content></ng-content>
+        </div>
+      </div>
     </div>
 
     <div class="content-block">

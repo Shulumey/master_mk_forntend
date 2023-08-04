@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Event, NavigationEnd, NavigationStart, Router} from "@angular/router";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {catchError, filter, map, timeout} from "rxjs/operators";
-import {Observable, Observer, Subscription, tap, TimeoutError} from "rxjs";
+import {HttpClient} from "@angular/common/http";
+import {map, timeout} from "rxjs/operators";
+import {Observable, Observer, tap, TimeoutError} from "rxjs";
 import {LayoutService} from "./layout.service";
-import {ServerResponse, StatusEnum} from "../server.response";
-import {APP_ROUTES} from "../constants/app.routes";
+import {ServerResponse} from "../server.response";
 
 
 const TIMEOUT: number = 30 * 1000;

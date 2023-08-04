@@ -1,0 +1,127 @@
+<div class="p-2">
+  <dx-toolbar class="mb-3">
+    <dxi-item location="before"
+              menuItemTemplate="openMenuItemTemplate"
+              widget="dxButton">
+      <div>
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faFloppyDisk"></fa-icon>
+            <span>Сохранить</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before"
+              widget="dxButton">
+      <div>
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faFileSignature"></fa-icon>
+            <span>Сохранить и отправить</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+
+    <dxi-item location="before" widget="dxButton">
+      <div>
+        <dx-button>
+          <div class="flex">
+            <fa-icon class="dx-icon mr-1" [icon]="faXmark"></fa-icon>
+            <span>Закрыть</span>
+          </div>
+        </dx-button>
+      </div>
+    </dxi-item>
+  </dx-toolbar>
+
+  <dx-form [formData]="order">
+    <dxi-item itemType="group" caption="Информация по заказу">
+      <dxi-item dataField="releaseType">
+        <dxo-label text="Способ выпуска товара"></dxo-label>
+        <div>
+          <dx-select-box [items]="releaseTypes"
+                         displayExpr="Display"
+                         [(value)]="order.releaseType"
+                         valueExpr="Value"/>
+        </div>
+      </dxi-item>
+      <dxi-item dataField="paymentType">
+        <dxo-label text="Тип оплаты"></dxo-label>
+        <div>
+          <dx-select-box [items]="paymentTypes"
+                         displayExpr="Display"
+                         [(value)]="order.paymentType"
+                         valueExpr="Value"/>
+        </div>
+      </dxi-item>
+      <dxi-item dataField="productionOrderId">
+        <dxo-label text="Номер производственного заказа"></dxo-label>
+      </dxi-item>
+    </dxi-item>
+    <dxi-item itemType="group" caption="Продукция">
+      <div>
+        <dx-toolbar class="mb-1">
+          <dxi-item location="before" widget="dxButton">
+            <div>
+              <dx-button type="success" stylingMode="outlined">
+                <div class="flex">
+                  <fa-icon class="dx-icon mr-1" [icon]="faCirclePlus"></fa-icon>
+                  <span>Добавить</span>
+                </div>
+              </dx-button>
+            </div>
+          </dxi-item>
+
+          <dxi-item location="before"
+                    menuItemTemplate="openMenuItemTemplate"
+                    widget="dxButton">
+            <div>
+              <dx-button stylingMode="outlined" type="danger">
+                <div class="flex">
+                  <fa-icon class="dx-icon mr-1" [icon]="faTrash"></fa-icon>
+                  <span>Удалить</span>
+                </div>
+              </dx-button>
+            </div>
+          </dxi-item>
+        </dx-toolbar>
+        <dx-data-grid [hoverStateEnabled]="true"
+                      [showBorders]="true"
+                      [remoteOperations]="true"
+                      height="100%">
+          <dxo-selection mode="single"></dxo-selection>
+          <dxo-filter-row [visible]="false"></dxo-filter-row>
+          <dxo-scrolling mode="virtual"></dxo-scrolling>
+          <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+          <dxi-column caption="Код товара" dataField="gtin"></dxi-column>
+          <dxi-column caption="Наименование товара" dataField="name"></dxi-column>
+          <dxi-column caption="Всего кодов" dataField="brand"></dxi-column>
+          <dxi-column caption="В буфере кодов" dataField="owner"></dxi-column>
+          <dxi-column caption="Получено" dataField="box"></dxi-column>
+          <dxi-column caption="Недоступно" dataField="boxVolume"></dxi-column>
+          <dxi-column caption="Дата истечения срока годности" dataField="matBox"></dxi-column>
+          <dxi-column caption="Статус" dataField="boxVolume"></dxi-column>
+        </dx-data-grid>
+      </div>
+
+    </dxi-item>
+  </dx-form>
+  <!--  <div class="dx-fieldset">
+      <div class="dx-field">
+        <div class="dx-field-label">Способ выпуска товара:</div>
+        <dx-select-box class="dx-field-value" [items]="releaseTypes"/>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-label">Тип оплаты:</div>
+        <dx-select-box class="dx-field-value" [items]="paymentTypes"/>
+      </div>
+      <div class="dx-field">
+        <div class="dx-field-label">Номер производственного заказа:</div>
+        <dx-text-box class="dx-field-value"/>
+      </div>
+    </div>-->
+</div>

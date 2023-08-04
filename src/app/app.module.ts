@@ -19,12 +19,31 @@ import { AppRoutingModule } from './app-routing.module';
 import {CoreModule} from "./core/core.module";
 import {DialogsModule} from "./dialogs/dialogs.module";
 
+import {
+    DevExtremeModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxDropDownButtonModule,
+    DxTemplateModule,
+    DxToolbarModule
+} from "devextreme-angular";
+import {
+    DxiColumnModule,
+    DxiItemModule,
+    DxoFilterRowModule,
+    DxoPagingModule,
+    DxoScrollingModule, DxoSelectionModule
+} from "devextreme-angular/ui/nested";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {PagesModule} from "./pages/pages.module";
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     SideNavOuterToolbarModule,
     SideNavInnerToolbarModule,
+    PagesModule,
     SingleCardModule,
     FooterModule,
     ChangePasswordFormModule,
@@ -35,7 +54,19 @@ import {DialogsModule} from "./dialogs/dialogs.module";
     AppRoutingModule,
     CoreModule,
     DialogsModule,
-    HeaderModule
+    HeaderModule,
+    DxButtonModule,
+    DxDataGridModule,
+    DxDropDownButtonModule,
+    DxTemplateModule,
+    DxToolbarModule,
+    DxiColumnModule,
+    DxiItemModule,
+    DxoFilterRowModule,
+    DxoPagingModule,
+    DxoScrollingModule,
+    DxoSelectionModule,
+    FontAwesomeModule,
   ],
   bootstrap: [AppComponent]
 })

@@ -23,7 +23,7 @@ export function getNavigation(productGroup: ProductGroup): any[] {
       items: [
         {
           text: 'Управление заказами',
-          path: APP_ROUTES.ORDERS,
+          path: `${productGroupName}/${APP_ROUTES.ORDERS}`,
           icon: faStore
 
         },

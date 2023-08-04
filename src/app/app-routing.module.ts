@@ -1,9 +1,6 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { LoginFormComponent, ChangePasswordFormComponent } from './shared/components';
-import { HomeComponent } from './pages/home/home.component';
-import { ProfileComponent } from './pages/profile/profile.component';
-import { TasksComponent } from './pages/tasks/tasks.component';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
+import {LoginFormComponent, ChangePasswordFormComponent} from './shared/components';
 import {
   DxButtonModule,
   DxDataGridModule,
@@ -14,9 +11,9 @@ import {
 import {CoreModule} from "./core/core.module";
 import {AuthGuardService} from "./core/services";
 import {APP_ROUTES, ROUTS_PRODUCT_GROUPS} from "./core/constants/app.routes";
-import {ProductcardsComponent} from "./pages/productcards/productcards.component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ProductGroupGuard} from "./core/services/product-group.guard";
+import {OrdersComponent, OrderViewComponent, ProductcardsComponent} from "./pages";
 
 
 const childRoutes: Routes = [
@@ -27,8 +24,18 @@ const childRoutes: Routes = [
   },
   {
     path: APP_ROUTES.PRODUCT_CARD,
-    component:ProductcardsComponent,
-    canActivate: [ AuthGuardService ]
+    component: ProductcardsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: APP_ROUTES.ORDERS,
+    component: OrdersComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: APP_ROUTES.ORDER_VIEW,
+    component: OrderViewComponent,
+    canActivate: [AuthGuardService]
   }
 ]
 
@@ -36,27 +43,27 @@ const productGroupsRoutes: Routes = [
   {
     path: ROUTS_PRODUCT_GROUPS.WATER,
     children: childRoutes,
-    canActivate: [ ProductGroupGuard ]
+    canActivate: [ProductGroupGuard]
   },
   {
     path: ROUTS_PRODUCT_GROUPS.BEER_ZERO,
     children: childRoutes,
-    canActivate: [ ProductGroupGuard ]
+    canActivate: [ProductGroupGuard]
   },
   {
     path: ROUTS_PRODUCT_GROUPS.SOFT_DRINKS,
     children: childRoutes,
-    canActivate: [ ProductGroupGuard ]
+    canActivate: [ProductGroupGuard]
   },
   {
     path: APP_ROUTES.LOGIN,
     component: LoginFormComponent,
-    canActivate: [ AuthGuardService ],
+    canActivate: [AuthGuardService],
   },
   {
     path: APP_ROUTES.CHANGE_PASSWORD,
     component: ChangePasswordFormComponent,
-    canActivate: [ AuthGuardService ]
+    canActivate: [AuthGuardService]
   },
   {
     path: '**',
@@ -76,10 +83,8 @@ const productGroupsRoutes: Routes = [
   providers: [AuthGuardService],
   exports: [RouterModule],
   declarations: [
-    HomeComponent,
-    ProfileComponent,
-    TasksComponent,
     ProductcardsComponent
   ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
