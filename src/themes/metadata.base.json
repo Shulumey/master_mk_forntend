@@ -1,5 +1,18 @@
 {
-  "items": [],
+  "items": [
+    {
+      "key": "$base-border-radius",
+      "value": "3px"
+    },
+    {
+      "key": "$base-border-color",
+      "value": "rgba(214, 214, 214, 1)"
+    },
+    {
+      "key": "$base-label-color",
+      "value": "rgba(107, 119, 130, 1)"
+    }
+  ],
   "baseTheme": "generic.carmine.compact",
   "assetsBasePath": "../../../node_modules/devextreme/dist/css/",
   "outputColorScheme": "base",

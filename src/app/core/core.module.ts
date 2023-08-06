@@ -11,7 +11,8 @@ import {AuthInterceptor} from "./intercepters/auth.interceptor";
 import {ErrorInterceptor} from "./intercepters/error.interceptor";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+  ],
   providers: [
     ScreenService,
     LayoutService,

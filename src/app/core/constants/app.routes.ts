@@ -27,8 +27,10 @@ export const APP_ROUTES: {
 
 export const OUTCOME_APP_ROUTES: {
   VIEW_ORDER: (productGroup: ProductGroup, id?: number) => string,
+  VIEW_ORDERS: (productGroup: ProductGroup)=> string
 } = {
-  VIEW_ORDER: (productGroup, id) => id ? `/${getProductGroupRoute(productGroup)}/order?id=${id}` : `/${getProductGroupRoute(productGroup)}/order`
+  VIEW_ORDER: (productGroup, id) => id ? `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDER_VIEW}?id=${id}` : `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDER_VIEW}`,
+  VIEW_ORDERS:(productGroup)=> `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDERS}`
 }
 
 export const ROUTS_PRODUCT_GROUPS: {

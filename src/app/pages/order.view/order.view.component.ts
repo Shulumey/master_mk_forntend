@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {NgDestroyComponent} from "../../core/ng.destroy.component";
 import {LayoutService} from "../../core/services";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {switchMap} from "rxjs";
 import {HttpService} from "../../core/services/http.service";
 import {filter, map} from "rxjs/operators";
@@ -11,33 +10,55 @@ import {DisplayEnumItem} from "../../shared/model/display.enum.item";
 import {OrderStatus, PaymentType, ReleaseType} from "../../shared/model/enums";
 import {DISPLAY_ENUM_MAP} from "../../shared/model/display.enum.map";
 import {
-  faArrowsRotate,
   faCirclePlus,
   faFileSignature,
-  faPencil,
-  faPlus,
-  faReceipt, faTrash,
+  faTrash,
   faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {faFloppyDisk} from "@fortawesome/free-regular-svg-icons";
+import {NgPageComponent} from "../../core/ng.page.component";
+import {OUTCOME_APP_ROUTES} from "../../core/constants/app.routes";
 
 @Component({
   selector: 'app-order.view',
   templateUrl: './order.view.component.html',
   styleUrls: ['./order.view.component.scss']
 })
-export class OrderViewComponent extends NgDestroyComponent implements OnInit {
+export class OrderViewComponent extends NgPageComponent implements OnInit {
 
-  order: OrderCodes;
+  _order: OrderCodes;
   releaseTypes: DisplayEnumItem<ReleaseType>[] | []
   paymentTypes: DisplayEnumItem<PaymentType>[] | []
 
-  constructor(layoutService: LayoutService, private route: ActivatedRoute, private http: HttpService) {
-    super(layoutService);
+  public get orderStatus(): string {
+    return DISPLAY_ENUM_MAP.ORDER_STATUS.find(s => s.Value === this.order.status)?.Display || "не удалось определить"
+  }
+
+  public get order(): OrderCodes {
+    return this._get("order");
+  }
+
+  public set order(val: OrderCodes) {
+    this._set("order", val);
+  }
+
+  constructor(layoutService: LayoutService, router: Router, private route: ActivatedRoute, private http: HttpService) {
+    super(layoutService, router);
 
     this.releaseTypes = DISPLAY_ENUM_MAP.RELEASE_TYPE;
     this.paymentTypes = DISPLAY_ENUM_MAP.PAYMENT_TYPE;
+  }
 
+  override onCanSave(): boolean {
+    return this.order.orderItems.length > 0;
+  }
+
+  override getValidationProps(): string[] {
+    return ["order"]
+  }
+
+  onFormChanged(e:any){
+    this.raiseChange(["order"]);
   }
 
   ngOnInit(): void {
@@ -59,13 +80,10 @@ export class OrderViewComponent extends NgDestroyComponent implements OnInit {
     }))
   }
 
-  protected readonly faReceipt = faReceipt;
-  protected readonly faPlus = faPlus;
-  protected readonly faArrowsRotate = faArrowsRotate;
   protected readonly faXmark = faXmark;
   protected readonly faFloppyDisk = faFloppyDisk;
-  protected readonly faPencil = faPencil;
   protected readonly faFileSignature = faFileSignature;
   protected readonly faCirclePlus = faCirclePlus;
   protected readonly faTrash = faTrash;
+  public readonly OUTCOME_APP_ROUTES = OUTCOME_APP_ROUTES;
 }

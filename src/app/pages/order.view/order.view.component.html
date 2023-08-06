@@ -1,10 +1,11 @@
 <div class="p-2">
   <dx-toolbar class="mb-3">
     <dxi-item location="before"
+              [disabled]="!isValid"
               menuItemTemplate="openMenuItemTemplate"
               widget="dxButton">
       <div>
-        <dx-button>
+        <dx-button  (onClick)="onSave()">
           <div class="flex">
             <fa-icon class="dx-icon mr-1" [icon]="faFloppyDisk"></fa-icon>
             <span>Сохранить</span>
@@ -27,7 +28,7 @@
 
     <dxi-item location="before" widget="dxButton">
       <div>
-        <dx-button>
+        <dx-button (onClick)="onClose(OUTCOME_APP_ROUTES.VIEW_ORDERS(layoutService.currentProductGroup!))">
           <div class="flex">
             <fa-icon class="dx-icon mr-1" [icon]="faXmark"></fa-icon>
             <span>Закрыть</span>
@@ -37,8 +38,12 @@
     </dxi-item>
   </dx-toolbar>
 
-  <dx-form [formData]="order">
+  <dx-form [formData]="order" (onFieldDataChanged)="onFormChanged($event)">
     <dxi-item itemType="group" caption="Информация по заказу">
+      <dxi-item dataField="releaseType" *ngIf="order.id>0;">
+        <dxo-label text="Статус"></dxo-label>
+        <span>{{orderStatus}}</span>
+      </dxi-item>
       <dxi-item dataField="releaseType">
         <dxo-label text="Способ выпуска товара"></dxo-label>
         <div>
@@ -90,6 +95,7 @@
         </dx-toolbar>
         <dx-data-grid [hoverStateEnabled]="true"
                       [showBorders]="true"
+                      [dataSource]="order.orderItems"
                       [remoteOperations]="true"
                       height="100%">
           <dxo-selection mode="single"></dxo-selection>

@@ -1,8 +1,11 @@
-import {Directive, EventEmitter, OnDestroy} from '@angular/core';
-import {distinctUntilChanged, Subscription} from "rxjs";
+import {Directive, EventEmitter, OnDestroy, Type} from '@angular/core';
+import {distinctUntilChanged, merge, mergeAll, Observable, Subscription} from "rxjs";
 import notify from "devextreme/ui/notify";
 import {SnackMessage, SnackPosition} from "../shared/model/snack.message";
 import {LayoutService} from "./services";
+import {map} from "rxjs/operators";
+import {type} from "devextreme/core/utils/type";
+import {ReturnStatement} from "@angular/compiler";
 
 @Directive()
 export abstract class NgDestroyComponent implements OnDestroy {
@@ -43,6 +46,23 @@ export abstract class NgDestroyComponent implements OnDestroy {
     }
   }
 
+  protected $watchAny(propertyNames: string[], callback: (propertyName?: string, newValue?: any, oldValue?: any) => void): void {
+    propertyNames.forEach((val, i) => this.getPropertyChangeEmitter(val));
+    const anyPropsRaise$: Observable<{ propertyName: string, oldValue: any, newValue: any }>[] = [];
+    this._propertyChangeMap.forEach((value, key) => {
+      anyPropsRaise$.push(value.pipe(map(item => {
+        return {
+          propertyName: key,
+          oldValue: item.oldValue,
+          newValue: item.newValue
+        }
+      })))
+    })
+    this.appendToSubs(merge(anyPropsRaise$).pipe(
+      mergeAll()
+    ).subscribe(item => callback(item.propertyName, item.newValue, item.oldValue)));
+  }
+
   protected _set(propertyName: string, propertyValue: any) {
     let oldValue = this._get(propertyName);
     this._properties.set(propertyName, propertyValue);
@@ -60,6 +80,18 @@ export abstract class NgDestroyComponent implements OnDestroy {
       this._properties.set(propertyName, undefined);
     }
     return this._properties.get(propertyName);
+  }
+
+  protected raiseChange(properties: string[]) {
+    properties.forEach((propertyName) => {
+      let oldValue = this._get(propertyName);
+      let emitter = this.getPropertyChangeEmitter(propertyName)
+      if (emitter) {
+        emitter.emit({
+          newValue: oldValue, oldValue: oldValue
+        })
+      }
+    })
   }
 
   private getPropertyChangeEmitter(propertyName: string): EventEmitter<{ newValue: any, oldValue: any }> | undefined {
