@@ -13,9 +13,22 @@ export class DialogService {
     return this._onDialogShow;
   }
 
-  public showDialog<T extends NgDialogComponent, TResult>(component: Type<T>, title?: string, isModal?: boolean, showCloseButton?: boolean, height?: number, width?: number): Promise<TResult> {
+  public showDialog<TComponent extends NgDialogComponent, TResult, TPayload>(
+    component: Type<TComponent>,
+    title?: string,
+    dialogId?: string,
+    payload?: TPayload,
+    dialogOptions?: {
+      idModal?: boolean,
+      showCloseButton?: boolean,
+      height?: number,
+      width?: number,
+      maxHeight?: number,
+      maxWidth?: number;
+    }
+  ): Promise<TResult> {
     return new Promise<TResult>((resolve, reject) => {
-      let parameters: DialogParams<T, TResult> = new class implements DialogParams<T, TResult> {
+      let parameters: DialogParams<TComponent, TResult> = new class implements DialogParams<TComponent, TResult> {
         reject(reason: any): void {
         }
 
@@ -23,22 +36,28 @@ export class DialogService {
         }
 
         result: Promise<TResult>;
-        component: Type<T>;
+        component: Type<TComponent>;
         height?: number;
         isModal?: boolean;
         showCloseButton?: boolean;
         title?: string;
         width?: number;
+        maxHeight: number;
+        maxWidth: number;
+        payload?: TPayload;
+        dialogId?: string;
       }
 
       parameters.title = title;
-      parameters.isModal = isModal;
-      parameters.height = height;
-      parameters.width = width;
+      parameters.isModal = dialogOptions?.idModal;
+      parameters.height = dialogOptions?.height;
+      parameters.width = dialogOptions?.width;
       parameters.component = component;
+      parameters.dialogId = dialogId;
+      parameters.payload = payload;
       parameters.resolve = resolve;
       parameters.reject = reject;
-      parameters.showCloseButton = showCloseButton;
+      parameters.showCloseButton = dialogOptions?.showCloseButton;
 
       this._onDialogShow.emit(parameters);
     });

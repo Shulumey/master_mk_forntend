@@ -10,6 +10,7 @@ export const APP_ROUTES: {
   PRODUCT_CARD: string,
   PACK_LINES: string,
   ORDERS: string,
+  RECEIVED: string,
   ORDER_VIEW: string,
   AGGREGATION_REPORTS: string,
   ROOT: string
@@ -20,17 +21,18 @@ export const APP_ROUTES: {
   PRODUCT_CARD: "product-cards",
   ORDERS: "orders",
   ORDER_VIEW: "order",
+  RECEIVED: "received",
   AGGREGATION_REPORTS: "aggregation-reports",
   PACK_LINES: "pack-lines",
   ROOT: "/"
 }
 
 export const OUTCOME_APP_ROUTES: {
-  VIEW_ORDER: (productGroup: ProductGroup, id?: number) => string,
-  VIEW_ORDERS: (productGroup: ProductGroup)=> string
+  VIEW_ORDER: (productGroup: ProductGroup) => string,
+  VIEW_ORDERS: (productGroup: ProductGroup) => string
 } = {
-  VIEW_ORDER: (productGroup, id) => id ? `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDER_VIEW}?id=${id}` : `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDER_VIEW}`,
-  VIEW_ORDERS:(productGroup)=> `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDERS}`
+  VIEW_ORDER: (productGroup) => `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDER_VIEW}`,
+  VIEW_ORDERS: (productGroup) => `/${getProductGroupRoute(productGroup)}/${APP_ROUTES.ORDERS}`
 }
 
 export const ROUTS_PRODUCT_GROUPS: {

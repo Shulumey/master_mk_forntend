@@ -6,8 +6,12 @@ export interface DialogParams<T extends NgDialogComponent, TResult> {
   isModal?: boolean,
   height?: number,
   width?: number,
+  maxWidth?: number,
+  maxHeight?: number,
   showCloseButton?: boolean,
   component: Type<T>,
+  payload?: any,
+  dialogId?: string,
   resolve: (value: TResult | PromiseLike<TResult>) => void,
   reject: (reason?: any) => void,
 }

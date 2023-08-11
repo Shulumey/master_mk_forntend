@@ -1,4 +1,4 @@
 ﻿export const enum PaymentType {
-  Emission = 1,
-  Utilization = 2
+  Emission = "Emission",
+  Utilization = "Utilization"
 }

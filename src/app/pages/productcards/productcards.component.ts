@@ -4,9 +4,9 @@ import {DialogService, LayoutService} from "../../core/services";
 import {faArrowsRotate, faArrowUpRightFromSquare, faBottleWater} from '@fortawesome/free-solid-svg-icons';
 import {NgDestroyComponent} from "../../core/ng.destroy.component";
 import {createStore, CustomStore} from "devextreme-aspnet-data-nojquery";
-import {PRODUCT_GROUP_API_URLS} from "../../core/constants/api.urls";
 import {GtinEntraceDialogComponent} from "../../dialogs/gtin-entrace-dialog/gtin-entrace-dialog.component";
 import {DxDataGridComponent} from "devextreme-angular";
+import {PRODUCTS_API_URLS} from "../../core/constants";
 
 @Component({
   selector: 'app-productcards',
@@ -32,7 +32,7 @@ export class ProductcardsComponent extends NgDestroyComponent implements AfterVi
 
     this.dataSource = createStore({
       key: "id",
-      loadUrl: PRODUCT_GROUP_API_URLS.GET_PRODUCTS(this.layoutService.currentProductGroup!)
+      loadUrl: PRODUCTS_API_URLS.GET_PRODUCTS(this.layoutService.currentProductGroup!)
     })
 
   }
@@ -44,8 +44,8 @@ export class ProductcardsComponent extends NgDestroyComponent implements AfterVi
   async onLoadProductItemClick(e: any) {
     switch (e.itemData.name) {
       case 'publicCards': {
-        let gtin = await this.dialogService.showDialog<GtinEntraceDialogComponent, string>(GtinEntraceDialogComponent, undefined, false, false);
-        this.httpService.post(PRODUCT_GROUP_API_URLS.LOAD_PRODUCTS(this.layoutService.currentProductGroup!),[gtin]).subscribe(async()=>{
+        let gtin = await this.dialogService.showDialog<GtinEntraceDialogComponent, string, unknown>(GtinEntraceDialogComponent);
+        this.httpService.post(PRODUCTS_API_URLS.LOAD_PRODUCTS(this.layoutService.currentProductGroup!),[gtin]).subscribe(async()=>{
            await this.onRefresh()
         })
         break;

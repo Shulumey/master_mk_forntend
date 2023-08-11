@@ -2,6 +2,8 @@ import {AfterViewInit, Component, HostBinding, OnInit} from '@angular/core';
 import {AppInfoService, AuthService, LayoutService, ScreenService} from "./core/services";
 import {NgDestroyComponent} from "./core/ng.destroy.component";
 import notify from "devextreme/ui/notify";
+import * as ru  from "devextreme/localization/messages/ru.json";
+import { locale, loadMessages } from "devextreme/localization";
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,9 @@ export class AppComponent extends NgDestroyComponent implements AfterViewInit {
 
   constructor(private authService: AuthService, private screen: ScreenService, public appInfo: AppInfoService, layoutService:LayoutService) {
     super(layoutService)
+
+    loadMessages(ru)
+    locale(navigator.language);
 
     this.appendToSubs(this.layoutService.messages$.subscribe(value => notify({
       message: value.message,

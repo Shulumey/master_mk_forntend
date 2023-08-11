@@ -1,55 +1,101 @@
 ﻿import {DisplayEnumItem} from "./display.enum.item";
-import {OrderStatus, PaymentType, ReleaseType} from "./enums";
+import {OrderProductStatus, OrderStatus, PackageType, PaymentType, ReleaseType} from "./enums";
+import {ProductGroup} from "./license";
+import {SUPPORT_PRODUCT_GROUPS} from "../../core/constants/product.groups";
 
 export const DISPLAY_ENUM_MAP: {
   ORDER_STATUS: DisplayEnumItem<OrderStatus>[],
   RELEASE_TYPE: DisplayEnumItem<ReleaseType>[],
-  PAYMENT_TYPE: DisplayEnumItem<PaymentType>[]
+  PAYMENT_TYPE: DisplayEnumItem<PaymentType>[],
+  ORDER_PRODUCT_STATUS: DisplayEnumItem<OrderProductStatus>[],
+  PACKAGE_TYPE: (productGroup: ProductGroup) => DisplayEnumItem<PackageType>[]
 } = {
   ORDER_STATUS: [
     {
-      Display: "Заказ создан",
-      Value: OrderStatus.Created
+      display: "Заказ создан",
+      value: OrderStatus.Created
     },
     {
-      Display: "Заказ ожидает подтверждения",
-      Value: OrderStatus.Pending
+      display: "Заказ ожидает подтверждения",
+      value: OrderStatus.Pending
     },
     {
-      Display: "Заказ отклонен",
-      Value: OrderStatus.Declined
+      display: "Заказ отклонен",
+      value: OrderStatus.Declined
     },
     {
-      Display: "Заказ подтверждён",
-      Value: OrderStatus.Approved
+      display: "Заказ подтверждён",
+      value: OrderStatus.Approved
     },
     {
-      Display: "Заказ готов",
-      Value: OrderStatus.Ready
+      display: "Заказ готов",
+      value: OrderStatus.Ready
     },
     {
-      Display: "Заказ закрыт",
-      Value: OrderStatus.Closed
+      display: "Заказ закрыт",
+      value: OrderStatus.Closed
     }
   ],
   RELEASE_TYPE: [
     {
-      Display: "Производство в РФ",
-      Value: ReleaseType.ProducedInRussia
+      display: "Производство в РФ",
+      value: ReleaseType.ProducedInRussia
     },
     {
-      Display: "Ввезен в РФ",
-      Value: ReleaseType.Import
+      display: "Ввезен в РФ",
+      value: ReleaseType.Import
     }
   ],
   PAYMENT_TYPE: [
     {
-      Display: "Оплата по эмиссии",
-      Value: PaymentType.Emission
+      display: "Оплата по эмиссии",
+      value: PaymentType.Emission
     },
     {
-      Display: "Оплата по нанесению",
-      Value: PaymentType.Utilization
+      display: "Оплата по нанесению",
+      value: PaymentType.Utilization
     }
-  ]
+  ],
+  ORDER_PRODUCT_STATUS: [
+    {
+      display: "Пул КМ находится в ожидании",
+      value: OrderProductStatus.Pending
+    },
+    {
+      display: "Пул создан",
+      value: OrderProductStatus.Active
+    },
+    {
+      display: "Пул не содержит больше кодов",
+      value: OrderProductStatus.Exhausted
+    },
+    {
+      display: "Пул более не доступен для работы",
+      value: OrderProductStatus.Rejected
+    },
+    {
+      display: "Пул закрыт",
+      value: OrderProductStatus.Closed
+    }
+  ],
+  PACKAGE_TYPE: (productGroup: ProductGroup) => {
+    switch (productGroup.name) {
+      case SUPPORT_PRODUCT_GROUPS.WATER:
+      case SUPPORT_PRODUCT_GROUPS.BEER_ZERO:
+      case SUPPORT_PRODUCT_GROUPS.SOFT_DRINKS: {
+        return [
+          {
+            display: "Единица товара",
+            value: PackageType.Unit
+          },
+          {
+            display: "Групповая потребительская упаковка",
+            value: PackageType.Group
+          }]
+      }
+      default: {
+        return []
+      }
+    }
+  }
 }

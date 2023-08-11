@@ -1,6 +1,6 @@
 import {
   AfterViewInit,
-  Component, ComponentRef,
+  Component, ComponentRef, Input,
   NgModule,
   OnInit, SimpleChanges,
   ViewChild,
@@ -16,6 +16,8 @@ import {DialogService, LayoutService} from "../../../core/services";
 import {DialogParams} from "../../model/dialog.params";
 import {NgDialogComponent} from "../../../core/ng.dialog.component";
 import {Properties} from "devextreme/ui/button";
+import {filter} from "rxjs/operators";
+import {maxHeaderSize} from "http";
 
 @Component({
   selector: 'app-popup-dialog',
@@ -33,15 +35,27 @@ export class PopupDialogComponent extends NgDestroyComponent implements AfterVie
   isModal: boolean;
   height: number | string;
   width: number | string;
+  maxWidth: number | string;
+  maxHeight: number | string;
   showCloseButton: boolean;
   dialogButtons: Properties[];
+
+  @Input()
+  public set popupId(id: string | undefined) {
+    this._set("popupId", id);
+  }
+
+  public get popupId(): string | undefined {
+    return this._get("popupId")
+  }
 
   constructor(layoutService: LayoutService, private dialogService: DialogService) {
     super(layoutService);
 
     this.popupVisibility = false;
-    // this.showDialog = this.showDialog.bind(this);
-    this.appendToSubs(this.dialogService.showDialog$.subscribe(params => this.showDialog(params)));
+    this.appendToSubs(this.dialogService.showDialog$.pipe(
+      filter(x => x.dialogId === this.popupId)
+    ).subscribe(params => this.showDialog(params)));
   }
 
   showDialog(dialogParams: DialogParams<NgDialogComponent, any>) {
@@ -50,6 +64,7 @@ export class PopupDialogComponent extends NgDestroyComponent implements AfterVie
 
     this.componentRef = this.containerRef.createComponent(dialogParams.component);
     this.componentRef.instance.resolver = dialogParams.resolve;
+    this.componentRef.instance.payload = dialogParams.payload;
     this.dialogButtons = this.componentRef.instance.dialogButtons;
     this.appendToSubs(this.componentRef.instance.onVisibilityChanged.subscribe(isVisible => this.popupVisibility = isVisible));
     this.popupVisibility = true;
@@ -67,6 +82,8 @@ export class PopupDialogComponent extends NgDestroyComponent implements AfterVie
     this.isModal = params.isModal == undefined ? false : params.isModal;
     this.height = params.height || "auto";
     this.width = params.width || "auto";
+    this.maxHeight = params.maxHeight || "auto";
+    this.maxWidth = params.maxWidth || "auto";
   }
 
   override ngOnDestroy() {

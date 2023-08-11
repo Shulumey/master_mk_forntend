@@ -1,10 +1,12 @@
 <dx-popup
   [showTitle]="showTitle"
-  [dragEnabled]="false"
+  [dragEnabled]="true"
   [showCloseButton]="showCloseButton"
   [title]="title"
   [height]="height"
   [width]="width"
+  [maxWidth]="maxWidth"
+  [maxHeight]="maxHeight"
   [(visible)]="popupVisibility"
   [deferRendering]="false"
   [hideOnOutsideClick]="!isModal">

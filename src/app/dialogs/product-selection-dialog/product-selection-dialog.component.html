@@ -1,0 +1,20 @@
+  <dx-data-grid [hoverStateEnabled]="true"
+                [showBorders]="true"
+                [dataSource]="dataSource"
+                [(selectedRowKeys)]="selectedProduct"
+                [remoteOperations]="true"
+                height="100%">
+    <dxo-selection mode="single"></dxo-selection>
+    <dxo-filter-row [visible]="true"></dxo-filter-row>
+    <dxo-scrolling mode="virtual"></dxo-scrolling>
+    <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+
+    <dxi-column caption="Код товара" dataField="gtin"></dxi-column>
+    <dxi-column caption="Наименование" dataField="name"></dxi-column>
+    <dxi-column caption="Товарный знак" dataField="brand"></dxi-column>
+    <dxi-column caption="Владелец" dataField="owner"></dxi-column>
+    <dxi-column caption="Уавковка" dataField="box"></dxi-column>
+    <dxi-column caption="Объем" dataField="boxVolume"></dxi-column>
+    <dxi-column caption="Материал упаковки" dataField="matBox"></dxi-column>
+  </dx-data-grid>
+

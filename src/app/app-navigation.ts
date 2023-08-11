@@ -1,6 +1,15 @@
-import {APP_ROUTES, getProductGroupRoute} from "./core/constants/app.routes";
-import {faAddressCard, faBoxOpen, faQrcode, faStore, faFileContract, faBoxesPacking} from "@fortawesome/free-solid-svg-icons";
+
+import {
+  faAddressCard,
+  faBoxOpen,
+  faQrcode,
+  faStore,
+  faFileContract,
+  faBoxesPacking,
+  faTruckFast
+} from "@fortawesome/free-solid-svg-icons";
 import {ProductGroup} from "./shared/model/license";
+import {APP_ROUTES, getProductGroupRoute} from "./core/constants";
 
 export function getNavigation(productGroup: ProductGroup): any[] {
 
@@ -25,9 +34,12 @@ export function getNavigation(productGroup: ProductGroup): any[] {
           text: 'Управление заказами',
           path: `${productGroupName}/${APP_ROUTES.ORDERS}`,
           icon: faStore
-
         },
-
+        {
+          text: 'Полученные КМ',
+          path: `${productGroupName}/${APP_ROUTES.RECEIVED}`,
+          icon: faTruckFast
+        },
       ]
     },
     {

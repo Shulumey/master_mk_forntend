@@ -49,8 +49,11 @@ export class HeaderComponent implements OnInit {
     this.authService.logOut();
   }
 
-  showSettings() {
-    this.dialogService.showDialog(SettingsDialogComponent, 'Настройки', false, undefined, 430, 500);
+  async showSettings() {
+    await this.dialogService.showDialog(SettingsDialogComponent, 'Настройки', undefined,null, {
+      height: 430,
+      width: 500
+    });
   }
 }
 

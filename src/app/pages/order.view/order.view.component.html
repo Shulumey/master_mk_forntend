@@ -5,7 +5,7 @@
               menuItemTemplate="openMenuItemTemplate"
               widget="dxButton">
       <div>
-        <dx-button  (onClick)="onSave()">
+        <dx-button (onClick)="onSave()">
           <div class="flex">
             <fa-icon class="dx-icon mr-1" [icon]="faFloppyDisk"></fa-icon>
             <span>Сохранить</span>
@@ -38,29 +38,21 @@
     </dxi-item>
   </dx-toolbar>
 
-  <dx-form [formData]="order" (onFieldDataChanged)="onFormChanged($event)">
+  <dx-form [formData]="order" (onFieldDataChanged)="onFormChanged($event)" [disabled]="!canEdit">
     <dxi-item itemType="group" caption="Информация по заказу">
       <dxi-item dataField="releaseType" *ngIf="order.id>0;">
         <dxo-label text="Статус"></dxo-label>
         <span>{{orderStatus}}</span>
       </dxi-item>
-      <dxi-item dataField="releaseType">
+      <dxi-item dataField="releaseType"
+                editorType="dxSelectBox"
+                [editorOptions]="{items:releaseTypes, displayExpr: 'display', valueExpr:'value'}">
         <dxo-label text="Способ выпуска товара"></dxo-label>
-        <div>
-          <dx-select-box [items]="releaseTypes"
-                         displayExpr="Display"
-                         [(value)]="order.releaseType"
-                         valueExpr="Value"/>
-        </div>
       </dxi-item>
-      <dxi-item dataField="paymentType">
+      <dxi-item dataField="paymentType"
+                editorType="dxSelectBox"
+                [editorOptions]="{items:paymentTypes, displayExpr: 'display', valueExpr:'value'}">
         <dxo-label text="Тип оплаты"></dxo-label>
-        <div>
-          <dx-select-box [items]="paymentTypes"
-                         displayExpr="Display"
-                         [(value)]="order.paymentType"
-                         valueExpr="Value"/>
-        </div>
       </dxi-item>
       <dxi-item dataField="productionOrderId">
         <dxo-label text="Номер производственного заказа"></dxo-label>
@@ -71,7 +63,7 @@
         <dx-toolbar class="mb-1">
           <dxi-item location="before" widget="dxButton">
             <div>
-              <dx-button type="success" stylingMode="outlined">
+              <dx-button type="success" (onClick)="openProduct()" stylingMode="outlined">
                 <div class="flex">
                   <fa-icon class="dx-icon mr-1" [icon]="faCirclePlus"></fa-icon>
                   <span>Добавить</span>
@@ -82,9 +74,10 @@
 
           <dxi-item location="before"
                     menuItemTemplate="openMenuItemTemplate"
+                    [disabled]="!canDelete"
                     widget="dxButton">
             <div>
-              <dx-button stylingMode="outlined" type="danger">
+              <dx-button stylingMode="outlined" type="danger" (onClick)="deleteProduct()">
                 <div class="flex">
                   <fa-icon class="dx-icon mr-1" [icon]="faTrash"></fa-icon>
                   <span>Удалить</span>
@@ -95,6 +88,8 @@
         </dx-toolbar>
         <dx-data-grid [hoverStateEnabled]="true"
                       [showBorders]="true"
+                      (onRowDblClick)="openProduct($event)"
+                      [(selectedRowKeys)]="selectedItems"
                       [dataSource]="order.orderItems"
                       [remoteOperations]="true"
                       height="100%">
@@ -104,13 +99,13 @@
           <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
 
           <dxi-column caption="Код товара" dataField="gtin"></dxi-column>
-          <dxi-column caption="Наименование товара" dataField="name"></dxi-column>
-          <dxi-column caption="Всего кодов" dataField="brand"></dxi-column>
-          <dxi-column caption="В буфере кодов" dataField="owner"></dxi-column>
-          <dxi-column caption="Получено" dataField="box"></dxi-column>
-          <dxi-column caption="Недоступно" dataField="boxVolume"></dxi-column>
-          <dxi-column caption="Дата истечения срока годности" dataField="matBox"></dxi-column>
-          <dxi-column caption="Статус" dataField="boxVolume"></dxi-column>
+          <dxi-column caption="Наименование товара" dataField="productName"></dxi-column>
+          <dxi-column caption="Всего кодов" dataField="totalCodes"></dxi-column>
+          <dxi-column caption="В буфере кодов" dataField="countLeft"></dxi-column>
+          <dxi-column caption="Получено" dataField="totalPassed"></dxi-column>
+          <dxi-column caption="Недоступно" dataField="unavailableCodes"></dxi-column>
+          <dxi-column caption="Дата истечения срока годности" dataField="expiredDate"></dxi-column>
+          <dxi-column caption="Статус" dataField="packType"></dxi-column>
         </dx-data-grid>
       </div>
 

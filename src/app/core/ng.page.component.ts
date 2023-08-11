@@ -7,11 +7,15 @@ import {Router} from "@angular/router";
 export abstract class NgPageComponent extends NgDestroyComponent {
 
   public isValid: boolean = true;
+  public canEdit: boolean = true;
 
   protected constructor(layoutService: LayoutService, protected router: Router) {
     super(layoutService)
 
-    this.$watchAny(this.getValidationProps(), () => this.isValid = this.onCanSave());
+    this.$watchAny(this.getValidationProps(), () => {
+      this.isValid = this.onCanSave()
+      this.canEdit = this.onCanEdit();
+    });
 
   }
 
@@ -24,6 +28,10 @@ export abstract class NgPageComponent extends NgDestroyComponent {
   }
 
   onCanSave(): boolean {
+    return true;
+  }
+
+  onCanEdit(): boolean{
     return true;
   }
 

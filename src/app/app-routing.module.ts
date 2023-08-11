@@ -10,10 +10,11 @@ import {
 } from 'devextreme-angular';
 import {CoreModule} from "./core/core.module";
 import {AuthGuardService} from "./core/services";
-import {APP_ROUTES, ROUTS_PRODUCT_GROUPS} from "./core/constants/app.routes";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ProductGroupGuard} from "./core/services/product-group.guard";
 import {OrdersComponent, OrderViewComponent, ProductcardsComponent} from "./pages";
+import {APP_ROUTES, ROUTS_PRODUCT_GROUPS} from "./core/constants";
+import {CodeMarksReceivedComponent} from "./pages/code-marks-received/code-marks-received.component";
 
 
 const childRoutes: Routes = [
@@ -30,6 +31,11 @@ const childRoutes: Routes = [
   {
     path: APP_ROUTES.ORDERS,
     component: OrdersComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: APP_ROUTES.RECEIVED,
+    component: CodeMarksReceivedComponent,
     canActivate: [AuthGuardService]
   },
   {

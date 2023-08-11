@@ -7,9 +7,9 @@ import {Properties} from "devextreme/ui/button";
 export abstract class NgDialogComponent extends NgDestroyComponent {
 
   public onVisibilityChanged: EventEmitter<boolean>;
-
+  public payload: any
   public dialogButtons: Properties[]
-  public resolver: ((value: any | PromiseLike<any>) => void) ;
+  public resolver: ((value: any | PromiseLike<any>) => void);
 
   protected constructor(layoutService: LayoutService) {
     super(layoutService);
